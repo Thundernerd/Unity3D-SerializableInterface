@@ -26,6 +26,21 @@ namespace TNRD
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
+            set
+            {
+                if (value is UnityEngine.Object unityObject)
+                {
+                    rawReference = null;
+                    unityReference = unityObject;
+                    mode = ReferenceMode.Unity;
+                }
+                else
+                {
+                    unityReference = null;
+                    rawReference = value;
+                    mode = ReferenceMode.Raw;
+                }
+            }
         }
 
         /// <inheritdoc />
