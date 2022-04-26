@@ -22,6 +22,20 @@ namespace TNRD
 
         private ReferenceMode ReferenceMode => (ReferenceMode)ReferenceModeProperty.enumValueIndex;
 
+        private object RawReferenceValue
+        {
+            get
+            {
+#if UNITY_2021_1_OR_NEWER
+                return RawReferenceProperty.managedReferenceValue;
+#else
+                ISerializableInterface instance =
+                    (ISerializableInterface)fieldInfo.GetValue(serializedProperty.serializedObject.targetObject);
+                return instance.GetRawReference();
+#endif
+            }
+        }
+
         /// <inheritdoc />
         public override bool CanCacheInspectorGUI(SerializedProperty property)
         {
@@ -113,13 +127,13 @@ namespace TNRD
 
             EditorGUI.PropertyField(objectDrawerRect,
                 RawReferenceProperty,
-                new GUIContent(RawReferenceProperty.managedReferenceValue.GetType().Name),
+                new GUIContent(RawReferenceValue.GetType().Name),
                 true);
         }
 
         private void DrawRawReference(Rect position)
         {
-            Type type = RawReferenceProperty.managedReferenceValue.GetType();
+            Type type = RawReferenceValue.GetType();
             string typeName = type.Name;
             IEnumerable<MonoScript> scripts = AssetDatabase.FindAssets($"t:Script {typeName}")
                 .Select(AssetDatabase.GUIDToAssetPath)
