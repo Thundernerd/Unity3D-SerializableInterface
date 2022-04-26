@@ -31,18 +31,13 @@ namespace TNRD
             AdvancedDropdownItem root = new AdvancedDropdownItem("Assets");
             splitToItem.Add("Assets/", root); // Needs the trailing slash to be recognized later on
 
-            TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(interfaceType);
-            foreach (Type type in types)
+            string[] allAssetPaths = AssetDatabase.GetAllAssetPaths();
+            foreach (string assetPath in allAssetPaths)
             {
-                if (type.IsAbstract || type.IsInterface) continue;
-                if (!type.IsSubclassOf(typeof(Object))) continue;
-
-                IEnumerable<string> paths = AssetDatabase.FindAssets($"t:{type.Name}")
-                    .Select(AssetDatabase.GUIDToAssetPath);
-
-                foreach (string path in paths)
+                Type assetType = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
+                if (interfaceType.IsAssignableFrom(assetType))
                 {
-                    CreateItemForPath(root, path);
+                    CreateItemForPath(root, assetPath);
                 }
             }
 
