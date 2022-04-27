@@ -1,17 +1,17 @@
 # Serializable Interface
 
 <p align="center">
-	<img alt="GitHub package.json version" src ="https://img.shields.io/github/package-json/v/Thundernerd/Unity3D-SeriAlizableInterface" />
-	<a href="https://github.com/Thundernerd/Unity3D-SeriAlizableInterface/issues">
-		<img alt="GitHub issues" src ="https://img.shields.io/github/issues/Thundernerd/Unity3D-SeriAlizableInterface" />
+	<img alt="GitHub package.json version" src ="https://img.shields.io/github/package-json/v/Thundernerd/Unity3D-SerializableInterface" />
+	<a href="https://github.com/Thundernerd/Unity3D-SerializableInterface/issues">
+		<img alt="GitHub issues" src ="https://img.shields.io/github/issues/Thundernerd/Unity3D-SerializableInterface" />
 	</a>
-	<a href="https://github.com/Thundernerd/Unity3D-SeriAlizableInterface/pulls">
-		<img alt="GitHub pull requests" src ="https://img.shields.io/github/issues-pr/Thundernerd/Unity3D-SeriAlizableInterface" />
+	<a href="https://github.com/Thundernerd/Unity3D-SerializableInterface/pulls">
+		<img alt="GitHub pull requests" src ="https://img.shields.io/github/issues-pr/Thundernerd/Unity3D-SerializableInterface" />
 	</a>
-	<a href="https://github.com/Thundernerd/Unity3D-SeriAlizableInterface/blob/master/LICENSE.md">
-		<img alt="GitHub license" src ="https://img.shields.io/github/license/Thundernerd/Unity3D-SeriAlizableInterface" />
+	<a href="https://github.com/Thundernerd/Unity3D-SerializableInterface/blob/master/LICENSE.md">
+		<img alt="GitHub license" src ="https://img.shields.io/github/license/Thundernerd/Unity3D-SerializableInterface" />
 	</a>
-	<img alt="GitHub last commit" src ="https://img.shields.io/github/last-commit/Thundernerd/Unity3D-SeriAlizableInterface" />
+	<img alt="GitHub last commit" src ="https://img.shields.io/github/last-commit/Thundernerd/Unity3D-SerializableInterface" />
 </p>
 
 A wrapper that allows you to serialize interfaces. Both UnityEngine.Object and regular object implementers work!
