@@ -11,10 +11,13 @@ using Object = UnityEngine.Object;
 namespace TNRD
 {
     [CustomPropertyDrawer(typeof(SerializableInterface<>), true)]
-    internal sealed class SerializableInterfacePropertyDrawer : PropertyDrawer
+    internal sealed partial class SerializableInterfacePropertyDrawer : PropertyDrawer
     {
         private SerializedProperty serializedProperty;
-        private bool isSelected;
+        private bool labelSelected;
+        private bool objectPickerSelected;
+
+        private bool IsSelected => labelSelected || objectPickerSelected;
 
         private SerializedProperty RawReferenceProperty => serializedProperty.FindPropertyRelative("rawReference");
         private SerializedProperty UnityReferenceProperty => serializedProperty.FindPropertyRelative("unityReference");
@@ -81,7 +84,6 @@ namespace TNRD
             HandleDeleteButton();
         }
 
-
         private Type GetGenericArgument()
         {
             Type type = fieldInfo.FieldType;
@@ -118,7 +120,7 @@ namespace TNRD
                 height = EditorGUIUtility.singleLineHeight
             };
 
-            objectFieldRect = EditorGUI.PrefixLabel(objectFieldRect, label);
+            objectFieldRect = DrawPrefixLabel(objectFieldRect, label);
             DrawRawReference(objectFieldRect);
             DrawButton(objectFieldRect, property, genericArgument);
 
@@ -150,7 +152,7 @@ namespace TNRD
             Type genericArgument
         )
         {
-            position = EditorGUI.PrefixLabel(position, label);
+            position = DrawPrefixLabel(position, label);
             DrawUnityReference(position);
             DrawButton(position, property, genericArgument);
         }
@@ -163,8 +165,30 @@ namespace TNRD
             DrawObjectField(position, EditorGUIUtility.ObjectContent(unityReference, referenceType), unityReference);
         }
 
+        private Rect DrawPrefixLabel(Rect position, GUIContent label)
+        {
+            GUIStyle labelStyle = IsSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
+            Rect result = EditorGUI.PrefixLabel(position, label, labelStyle);
+
+            if (Event.current.type == EventType.MouseDown)
+            {
+                Rect delta = new Rect(position)
+                {
+                    width = position.width - result.width
+                };
+
+                labelSelected = delta.Contains(Event.current.mousePosition);
+                RepaintActiveInspector();
+            }
+
+            return result;
+        }
+
         private void DrawObjectField(Rect position, GUIContent objectFieldContent, Object objectToShow)
         {
+            Rect positionWithoutThumb = new Rect(position);
+            positionWithoutThumb.xMax -= 20;
+
             Event evt = Event.current;
             if (evt.type == EventType.Repaint)
             {
@@ -173,14 +197,29 @@ namespace TNRD
                     position.Contains(evt.mousePosition),
                     false,
                     false,
-                    isSelected);
+                    IsSelected);
             }
-            else if ((evt.type == EventType.MouseDown || evt.type == EventType.MouseUp) && evt.button == 0)
+
+            HandleObjectFieldMouseDown(position, objectToShow, evt, positionWithoutThumb);
+        }
+
+        private void HandleObjectFieldMouseDown(
+            Rect position,
+            Object objectToShow,
+            Event evt,
+            Rect positionWithoutThumb
+        )
+        {
+            if (evt.type != EventType.MouseDown)
+                return;
+
+            if (evt.button == 0)
             {
-                isSelected = position.Contains(evt.mousePosition);
+                objectPickerSelected = positionWithoutThumb.Contains(evt.mousePosition);
+                PingObject();
                 RepaintActiveInspector();
             }
-            else if (evt.type == EventType.MouseDown && evt.button == 1 && position.Contains(evt.mousePosition))
+            else if (evt.button == 1 && positionWithoutThumb.Contains(evt.mousePosition))
             {
                 if (objectToShow != null)
                 {
@@ -192,6 +231,24 @@ namespace TNRD
                 }
 
                 evt.Use();
+            }
+        }
+
+        private void PingObject()
+        {
+            if (!IsSelected)
+                return;
+
+            switch (ReferenceMode)
+            {
+                case ReferenceMode.Raw:
+                    // No support for pinging raw objects for now (I guess this would ping the MonoScript?)
+                    break;
+                case ReferenceMode.Unity:
+                    EditorGUIUtility.PingObject(UnityReferenceProperty.objectReferenceValue);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -263,7 +320,7 @@ namespace TNRD
 
         private void HandleDeleteButton()
         {
-            if (!isSelected)
+            if (!IsSelected)
                 return;
 
             Event evt = Event.current;
