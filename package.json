@@ -1,6 +1,6 @@
 {
   "name": "net.tnrd.serializableinterface",
-  "version": "1.3.0",
+  "version": "0.0.0-development",
   "displayName": "Serializable Interface",
   "unity": "2020.1",
   "description": "A wrapper that allows serialization of interfaces that supports both UnityEngine.Object and regular object types",
@@ -13,5 +13,24 @@
   "author": {
     "name": "TNRD",
     "url": "https://www.tnrd.net"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Thundernerd/Unity3D-SerializableInterface.git"
+  },
+  "devDependencies": {
+    "semantic-release": "^19.0.2"
+  },
+  "dependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.4",
+    "@semantic-release/npm": "^9.0.1",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "conventional-changelog-conventionalcommits": "^4.6.3"
   }
 }
