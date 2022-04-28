@@ -1,3 +1,10 @@
+### [1.5.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.5.0...v1.5.1) (2022-04-28)
+
+
+### Bug Fixes
+
+* added newline at end of files ([a0d6575](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/a0d6575ef00721d6d3e5b2cb10c2836d5f4a2e03))
+
 ## [1.5.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.4.1...v1.5.0) (2022-04-28)
 
 
