@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace TNRD
+namespace TNRD.Utilities
 {
     internal static class PropertyEditorUtility
     {

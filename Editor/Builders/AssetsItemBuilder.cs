@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using TNRD.Items;
+using TNRD.Utilities;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine.Assertions;
-using Object = UnityEngine.Object;
 
-namespace TNRD
+namespace TNRD.Builders
 {
     internal sealed class AssetsItemBuilder
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TNRD.Items;
+using TNRD.Utilities;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine.Assertions;
 
-namespace TNRD
+namespace TNRD.Builders
 {
     internal sealed class ClassesItemBuilder
     {

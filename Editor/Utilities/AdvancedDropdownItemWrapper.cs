@@ -1,6 +1,6 @@
 ﻿using UnityEditor.IMGUI.Controls;
 
-namespace TNRD
+namespace TNRD.Utilities
 {
     internal sealed class AdvancedDropdownItemWrapper : AdvancedDropdownItem
     {

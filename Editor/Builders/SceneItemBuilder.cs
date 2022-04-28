@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
 using TNRD.Items;
+using TNRD.Utilities;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-namespace TNRD
+namespace TNRD.Builders
 {
     internal sealed class SceneItemBuilder
     {
