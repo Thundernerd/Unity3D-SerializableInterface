@@ -1,9 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace TNRD
+namespace TNRD.Drawers
 {
-    internal sealed partial class SerializableInterfacePropertyDrawer
+    public partial class CustomObjectDrawer
     {
         private static class Styles
         {
