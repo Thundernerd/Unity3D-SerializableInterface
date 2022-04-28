@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace TNRD
+namespace TNRD.Utilities
 {
     internal static class IconUtility
     {
