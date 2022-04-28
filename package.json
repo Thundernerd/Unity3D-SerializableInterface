@@ -1,6 +1,6 @@
 {
   "name": "net.tnrd.serializableinterface",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "displayName": "Serializable Interface",
   "unity": "2020.1",
   "description": "A wrapper that allows serialization of interfaces that supports both UnityEngine.Object and regular object types",

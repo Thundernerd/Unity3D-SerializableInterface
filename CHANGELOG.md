@@ -1,3 +1,10 @@
+### [1.5.2](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.5.1...v1.5.2) (2022-04-28)
+
+
+### Bug Fixes
+
+* updated namespaces ([c9acaf2](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/c9acaf2d044f862bf5fdcd0819215d37afc01090))
+
 ### [1.5.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.5.0...v1.5.1) (2022-04-28)
 
 
