@@ -1,3 +1,10 @@
+### [1.4.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.4.0...v1.4.1) (2022-04-28)
+
+
+### Bug Fixes
+
+* added missing meta file ([6fd976f](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/6fd976f46d7706f3daacf7b3982f64312f9208c2))
+
 ## [1.4.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.3.0...v1.4.0) (2022-04-27)
 
 
