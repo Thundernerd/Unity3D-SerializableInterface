@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using TNRD.Utilities;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TNRD.Drawers
 {
