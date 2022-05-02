@@ -30,43 +30,6 @@ namespace TNRD.Drawers
             HandleDragAndDrop(position);
         }
 
-        private void HandleDragAndDrop(Rect position)
-        {
-            if (Event.current.type == EventType.DragPerform)
-            {
-                UnityReferenceProperty.objectReferenceValue = DragAndDrop.objectReferences[0];
-                return;
-            }
-
-            if (Event.current.type != EventType.DragUpdated) 
-                return;
-
-            if (!position.Contains(Event.current.mousePosition))
-                return;
-
-            if (DragAndDrop.objectReferences.Length > 1)
-            {
-                DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
-                return;
-            }
-
-            Object objectReference = DragAndDrop.objectReferences[0];
-
-            if (objectReference is GameObject gameObject)
-            {
-                Component component = gameObject.GetComponent(GenericType);
-                DragAndDrop.visualMode = component != null
-                    ? DragAndDropVisualMode.Link
-                    : DragAndDropVisualMode.Rejected;
-            }
-            else
-            {
-                DragAndDrop.visualMode = GenericType.IsInstanceOfType(objectReference)
-                    ? DragAndDropVisualMode.Link
-                    : DragAndDropVisualMode.Rejected;
-            }
-        }
-
         protected override void OnPropertiesClicked()
         {
             PropertyEditorUtility.Show(UnityReferenceProperty.objectReferenceValue);

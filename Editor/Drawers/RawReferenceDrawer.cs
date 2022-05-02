@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using TNRD.Utilities;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TNRD.Drawers
 {
@@ -69,6 +71,8 @@ namespace TNRD.Drawers
                 RawReferenceProperty,
                 new GUIContent(rawReferenceValue.GetType().Name),
                 true);
+
+            HandleDragAndDrop(objectFieldRect);
         }
 
         /// <inheritdoc />
