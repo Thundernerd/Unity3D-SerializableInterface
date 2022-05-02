@@ -1,3 +1,16 @@
+## [1.6.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.5.2...v1.6.0) (2022-05-02)
+
+
+### Features
+
+* added drag and drop for unity reference ([ef45ebc](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/ef45ebccc6cd6d3a9a6902937ddc1aa3143b27e9))
+* added raw reference drag and drop and combined them in base ([62f61e8](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/62f61e82389bcf97b776ef22cc6c591ef9920ce5))
+
+
+### Bug Fixes
+
+* removed unused namespaces ([0b1185c](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/0b1185c272d7284b26cfcd44295131f5c8a2741a))
+
 ### [1.5.2](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.5.1...v1.5.2) (2022-04-28)
 
 
