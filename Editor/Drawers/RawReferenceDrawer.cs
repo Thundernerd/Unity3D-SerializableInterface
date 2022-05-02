@@ -69,6 +69,8 @@ namespace TNRD.Drawers
                 RawReferenceProperty,
                 new GUIContent(rawReferenceValue.GetType().Name),
                 true);
+
+            HandleDragAndDrop(objectFieldRect);
         }
 
         /// <inheritdoc />
