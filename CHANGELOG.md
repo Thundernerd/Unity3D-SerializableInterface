@@ -1,3 +1,10 @@
+### [1.6.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.6.0...v1.6.1) (2022-05-07)
+
+
+### Bug Fixes
+
+* add package-lock.json to package ([0b08f32](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/0b08f3251a72b21f61c8df2a4c7ffc0082f5d3d1))
+
 ## [1.6.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.5.2...v1.6.0) (2022-05-02)
 
 
