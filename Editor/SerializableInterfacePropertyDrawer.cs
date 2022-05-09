@@ -54,9 +54,15 @@ namespace TNRD
             {
                 if (type.IsGenericType)
                 {
+                    Type genericArgument = type.GetGenericArguments()[0];
                     if (type.GetGenericTypeDefinition() == typeof(SerializableInterface<>))
                     {
-                        return type.GetGenericArguments()[0];
+                        return genericArgument;
+                    }
+
+                    if (genericArgument.GetGenericTypeDefinition() == typeof(SerializableInterface<>))
+                    {
+                        return genericArgument.GetGenericArguments()[0];
                     }
 
                     type = type.BaseType;
