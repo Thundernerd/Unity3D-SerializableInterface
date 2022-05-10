@@ -22,9 +22,10 @@ namespace TNRD
 
         private void Initialize(SerializedProperty property)
         {
-            if (serializedProperty != null)
+            if (serializedProperty == property)
                 return;
 
+            activeDrawer = null;
             serializedProperty = property;
             genericType = GetGenericArgument();
             Assert.IsNotNull(genericType, "Unable to find generic argument, are you doing some shady inheritance?");
@@ -52,6 +53,8 @@ namespace TNRD
 
             while (type != null)
             {
+                if (type.IsArray) type = type.GetElementType();
+                
                 if (type.IsGenericType)
                 {
                     Type genericArgument = type.GetGenericArguments()[0];
