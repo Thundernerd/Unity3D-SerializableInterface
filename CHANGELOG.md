@@ -1,3 +1,16 @@
+## [1.7.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.6.1...v1.7.0) (2022-06-12)
+
+
+### Features
+
+* added support for collections ([068b76c](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/068b76cb5072541b4c87a6c5e55669ee69e172be))
+
+
+### Bug Fixes
+
+* invalid scenes get skipped ([b13c42d](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/b13c42d2bcab44bacc71b71a3be3e8f9d40a1e5c))
+* package-lock.json meta issue ([c23b9bc](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/c23b9bc68147acaf165b174a0206ac9cf43b3e6b))
+
 ### [1.6.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.6.0...v1.6.1) (2022-05-07)
 
 
