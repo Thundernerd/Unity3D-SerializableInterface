@@ -24,7 +24,7 @@ namespace TNRD.Builders
 
         public AdvancedDropdownItem Build()
         {
-            if (scene == null)
+            if (scene == null || !scene.Value.IsValid())
             {
                 return new AdvancedDropdownItem("Scene")
                 {
