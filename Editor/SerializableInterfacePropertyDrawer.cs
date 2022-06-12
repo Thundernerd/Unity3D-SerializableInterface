@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using TNRD.Drawers;
 using UnityEditor;
 using UnityEngine;
@@ -22,9 +23,10 @@ namespace TNRD
 
         private void Initialize(SerializedProperty property)
         {
-            if (serializedProperty != null)
+            if (serializedProperty == property)
                 return;
 
+            activeDrawer = null;
             serializedProperty = property;
             genericType = GetGenericArgument();
             Assert.IsNotNull(genericType, "Unable to find generic argument, are you doing some shady inheritance?");
@@ -52,14 +54,26 @@ namespace TNRD
 
             while (type != null)
             {
+                if (type.IsArray)
+                    type = type.GetElementType();
+
+                if (type == null)
+                    return null;
+
                 if (type.IsGenericType)
                 {
-                    if (type.GetGenericTypeDefinition() == typeof(SerializableInterface<>))
+                    if (typeof(IEnumerable).IsAssignableFrom(type))
+                    {
+                        type = type.GetGenericArguments()[0];
+                    }
+                    else if (type.GetGenericTypeDefinition() == typeof(SerializableInterface<>))
                     {
                         return type.GetGenericArguments()[0];
                     }
-
-                    type = type.BaseType;
+                    else
+                    {
+                        type = type.BaseType;
+                    }
                 }
                 else
                 {
