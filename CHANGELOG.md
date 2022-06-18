@@ -1,3 +1,11 @@
+### [1.7.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.7.0...v1.7.1) (2022-06-18)
+
+
+### Bug Fixes
+
+* added package-lock.json to gitignore ([9fb467c](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/9fb467c605413529373a9e2a424762744fba1b1c))
+* changed block scalar from literal to folded ([44b269f](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/44b269fa140c1b3a89fba78acb424d8a1609a0b5))
+
 ## [1.7.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.6.1...v1.7.0) (2022-06-12)
 
 
