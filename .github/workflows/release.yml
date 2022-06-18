@@ -17,7 +17,16 @@ jobs:
         with:
           node-version: 'lts/*'
       - name: Install dependencies
-        run: npm ci
+        run: | 
+          npm install 
+          semantic-release 
+          @semantic-release/changelog 
+          @semantic-release/commit-analyzer 
+          @semantic-release/git 
+          @semantic-release/github 
+          @semantic-release/npm 
+          @semantic-release/release-notes-generator 
+          conventional-changelog-conventionalcommits
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
