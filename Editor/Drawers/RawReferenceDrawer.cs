@@ -121,7 +121,7 @@ namespace TNRD.Drawers
 
             if (previousReferenceValue == currentReferenceValue)
             {
-                rawReferenceProperty.managedReferenceValue = CreateInstance(currentReferenceValue);
+                RawReferenceValue = CreateInstance(currentReferenceValue);
                 rawReferenceProperty.serializedObject.ApplyModifiedProperties();
             }
 
