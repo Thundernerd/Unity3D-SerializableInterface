@@ -13,24 +13,46 @@ namespace TNRD
         private const string RAW_REFERENCE = "rawReference";
         private const string MODE = "mode";
 
+        private SerializedProperty serializedProperty;
         private Type genericType;
+
         private IReferenceDrawer activeDrawer;
 
         private object previousReferenceValue;
         private string previousPropertyPath;
 
         /// <inheritdoc />
-        public override bool CanCacheInspectorGUI(SerializedProperty property)
-        {
-            return false;
-        }
+        public override bool CanCacheInspectorGUI(SerializedProperty property) => false;
 
-        private void Initialize()
+        private void Initialize(SerializedProperty property)
         {
+            if (serializedProperty == property)
+                return;
+
             activeDrawer = null;
+            serializedProperty = property;
             genericType = GetGenericArgument();
 
             Assert.IsNotNull(genericType, "Unable to find generic argument, are you doing some shady inheritance?");
+        }
+
+        /// <inheritdoc />
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            Initialize(property);
+            activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
+            return activeDrawer.GetHeight();
+        }
+
+        /// <inheritdoc />
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            Initialize(property);
+            AvoidDuplicateReferencesInArray(property);
+
+            activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
+            activeDrawer.OnGUI(position);
+            previousPropertyPath = property.propertyPath;
         }
 
         /// <summary>
@@ -50,9 +72,17 @@ namespace TNRD
             if (currentReferenceValue == null) return;
 
             if (previousReferenceValue == currentReferenceValue)
+            {
                 rawReferenceProperty.managedReferenceValue = CreateInstance(currentReferenceValue);
+                rawReferenceProperty.serializedObject.ApplyModifiedProperties();
+            }
 
             previousReferenceValue = currentReferenceValue;
+        }
+        
+        private static bool IsPropertyInArray(SerializedProperty prop)
+        {
+            return prop.propertyPath.Contains(".Array.data[");
         }
 
         private static object CreateInstance(object source)
@@ -60,32 +90,6 @@ namespace TNRD
             var instance = Activator.CreateInstance(source.GetType());
             EditorUtility.CopySerializedManagedFieldsOnly(source, instance);
             return instance;
-        }
-
-        private static bool IsPropertyInArray(SerializedProperty prop)
-        {
-            return prop.propertyPath.Contains(".Array.data[");
-        }
-
-
-        /// <inheritdoc />
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            Initialize();
-            activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
-            return activeDrawer.GetHeight();
-        }
-
-        /// <inheritdoc />
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            Initialize();
-            AvoidDuplicateReferencesInArray(property);
-
-            activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
-            activeDrawer.OnGUI(position);
-
-            previousPropertyPath = property.propertyPath;
         }
 
         private Type GetGenericArgument()
