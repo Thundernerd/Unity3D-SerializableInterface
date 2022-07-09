@@ -10,14 +10,14 @@ namespace TNRD
     [CustomPropertyDrawer(typeof(SerializableInterface<>), true)]
     internal sealed class SerializableInterfacePropertyDrawer : PropertyDrawer
     {
-        private const string k_RawReference = "rawReference";
+        private const string RAW_REFERENCE = "rawReference";
+        private const string MODE = "mode";
 
-        private SerializedProperty serializedProperty;
-        private object previousReferenceValue;
-        private string lastPropertyPath;
         private Type genericType;
-
         private IReferenceDrawer activeDrawer;
+
+        private object previousReferenceValue;
+        private string previousPropertyPath;
 
         /// <inheritdoc />
         public override bool CanCacheInspectorGUI(SerializedProperty property)
@@ -25,9 +25,8 @@ namespace TNRD
             return false;
         }
 
-        private void Initialize(SerializedProperty property)
+        private void Initialize()
         {
-            serializedProperty = property;
             activeDrawer = null;
             genericType = GetGenericArgument();
 
@@ -35,34 +34,35 @@ namespace TNRD
         }
 
         /// <summary>
-        /// Avoids an unexpected behaviour
+        /// When a new instance of <see cref="SerializableInterface{T}"/> is added in an array using the inspector's gizmo,
+        /// avoids having their <see cref="SerializableInterface{T}.rawReference"/> field reference the same instance.
         /// </summary>
-        private void AvoidDuplicateReferences(SerializedProperty property)
+        /// <param name="property">The SerializedProperty to make the custom GUI for.</param>
+        private void AvoidDuplicateReferencesInArray(SerializedProperty property)
         {
-            if (!IsTargetObjectArray(property)) return; // This function 
-            if (lastPropertyPath == null) return;
-            if (lastPropertyPath == property.propertyPath) return; // only one element
+            if (!IsPropertyInArray(property)) return;
+            if (previousPropertyPath == null) return;
+            if (previousPropertyPath == property.propertyPath) return;
 
-            var rawReferenceProperty = property.FindPropertyRelative(k_RawReference); // Cache property
+            var rawReferenceProperty = property.FindPropertyRelative(RAW_REFERENCE);
             var currentReferenceValue = rawReferenceProperty.managedReferenceValue;
 
-            if (currentReferenceValue == null) return; // Value is null. Probably new or not set yet
+            if (currentReferenceValue == null) return;
 
             if (previousReferenceValue == currentReferenceValue)
-            {
-                // The best behaviour would be to create a shallow copy. The extension method from SolidUtilities works perfectly.
-                // Using serialization or reflection might also work
-                var instance = Activator.CreateInstance(currentReferenceValue.GetType());
-                rawReferenceProperty.managedReferenceValue = instance;
-
-                // propertyRelative.managedReferenceValue = currentReferenceValue.ShallowCopy();
-            }
+                rawReferenceProperty.managedReferenceValue = CreateInstance(currentReferenceValue);
 
             previousReferenceValue = currentReferenceValue;
         }
 
+        private static object CreateInstance(object source)
+        {
+            var instance = Activator.CreateInstance(source.GetType());
+            EditorUtility.CopySerializedManagedFieldsOnly(source, instance);
+            return instance;
+        }
 
-        private static bool IsTargetObjectArray(SerializedProperty prop)
+        private static bool IsPropertyInArray(SerializedProperty prop)
         {
             return prop.propertyPath.Contains(".Array.data[");
         }
@@ -71,7 +71,7 @@ namespace TNRD
         /// <inheritdoc />
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            Initialize(property);
+            Initialize();
             activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
             return activeDrawer.GetHeight();
         }
@@ -79,13 +79,13 @@ namespace TNRD
         /// <inheritdoc />
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            Initialize(property);
-            AvoidDuplicateReferences(property);
+            Initialize();
+            AvoidDuplicateReferencesInArray(property);
 
             activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
             activeDrawer.OnGUI(position);
 
-            lastPropertyPath = property.propertyPath;
+            previousPropertyPath = property.propertyPath;
         }
 
         private Type GetGenericArgument()
@@ -130,7 +130,7 @@ namespace TNRD
             GUIContent label
         )
         {
-            SerializedProperty modeProperty = serializedProperty.FindPropertyRelative("mode");
+            SerializedProperty modeProperty = property.FindPropertyRelative(MODE);
             ReferenceMode referenceMode = (ReferenceMode)modeProperty.enumValueIndex;
 
             switch (referenceMode)
