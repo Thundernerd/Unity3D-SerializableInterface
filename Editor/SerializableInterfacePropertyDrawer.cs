@@ -10,16 +10,10 @@ namespace TNRD
     [CustomPropertyDrawer(typeof(SerializableInterface<>), true)]
     internal sealed class SerializableInterfacePropertyDrawer : PropertyDrawer
     {
-        private const string RAW_REFERENCE = "rawReference";
-        private const string MODE = "mode";
-
         private SerializedProperty serializedProperty;
         private Type genericType;
 
         private IReferenceDrawer activeDrawer;
-
-        private object previousReferenceValue;
-        private string previousPropertyPath;
 
         /// <inheritdoc />
         public override bool CanCacheInspectorGUI(SerializedProperty property) => false;
@@ -48,48 +42,8 @@ namespace TNRD
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             Initialize(property);
-            AvoidDuplicateReferencesInArray(property);
-
             activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
             activeDrawer.OnGUI(position);
-            previousPropertyPath = property.propertyPath;
-        }
-
-        /// <summary>
-        /// When a new instance of <see cref="SerializableInterface{T}"/> is added in an array using the inspector's gizmo,
-        /// avoids having their <see cref="SerializableInterface{T}.rawReference"/> field reference the same instance.
-        /// </summary>
-        /// <param name="property">The SerializedProperty to make the custom GUI for.</param>
-        private void AvoidDuplicateReferencesInArray(SerializedProperty property)
-        {
-            if (!IsPropertyInArray(property)) return;
-            if (previousPropertyPath == null) return;
-            if (previousPropertyPath == property.propertyPath) return;
-
-            var rawReferenceProperty = property.FindPropertyRelative(RAW_REFERENCE);
-            var currentReferenceValue = rawReferenceProperty.managedReferenceValue;
-
-            if (currentReferenceValue == null) return;
-
-            if (previousReferenceValue == currentReferenceValue)
-            {
-                rawReferenceProperty.managedReferenceValue = CreateInstance(currentReferenceValue);
-                rawReferenceProperty.serializedObject.ApplyModifiedProperties();
-            }
-
-            previousReferenceValue = currentReferenceValue;
-        }
-        
-        private static bool IsPropertyInArray(SerializedProperty prop)
-        {
-            return prop.propertyPath.Contains(".Array.data[");
-        }
-
-        private static object CreateInstance(object source)
-        {
-            var instance = Activator.CreateInstance(source.GetType());
-            EditorUtility.CopySerializedManagedFieldsOnly(source, instance);
-            return instance;
         }
 
         private Type GetGenericArgument()
@@ -134,7 +88,7 @@ namespace TNRD
             GUIContent label
         )
         {
-            SerializedProperty modeProperty = serializedProperty.FindPropertyRelative(MODE);
+            SerializedProperty modeProperty = serializedProperty.FindPropertyRelative("mode");
             ReferenceMode referenceMode = (ReferenceMode)modeProperty.enumValueIndex;
 
             switch (referenceMode)
