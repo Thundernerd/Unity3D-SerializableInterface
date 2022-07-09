@@ -134,7 +134,7 @@ namespace TNRD
             GUIContent label
         )
         {
-            SerializedProperty modeProperty = property.FindPropertyRelative(MODE);
+            SerializedProperty modeProperty = serializedProperty.FindPropertyRelative(MODE);
             ReferenceMode referenceMode = (ReferenceMode)modeProperty.enumValueIndex;
 
             switch (referenceMode)
