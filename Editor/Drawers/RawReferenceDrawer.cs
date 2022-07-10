@@ -110,14 +110,18 @@ namespace TNRD.Drawers
 
         private void AvoidDuplicateReferencesInArray()
         {
-            if (!IsPropertyInArray(Property)) return;
-            if (previousPropertyPath == null) return;
-            if (previousPropertyPath == Property.propertyPath) return;
+            if (!IsPropertyInArray(Property)) 
+                return;
+            if (previousPropertyPath == null) 
+                return;
+            if (previousPropertyPath == Property.propertyPath) 
+                return;
 
-            var rawReferenceProperty = Property.FindPropertyRelative("rawReference");
-            var currentReferenceValue = RawReferenceValue;
+            SerializedProperty rawReferenceProperty = Property.FindPropertyRelative("rawReference");
+            object currentReferenceValue = RawReferenceValue;
 
-            if (currentReferenceValue == null) return;
+            if (currentReferenceValue == null) 
+                return;
 
             if (previousReferenceValue == currentReferenceValue)
             {
@@ -135,7 +139,7 @@ namespace TNRD.Drawers
 
         private static object CreateInstance(object source)
         {
-            var instance = Activator.CreateInstance(source.GetType());
+            object instance = Activator.CreateInstance(source.GetType());
             EditorUtility.CopySerializedManagedFieldsOnly(source, instance);
             return instance;
         }

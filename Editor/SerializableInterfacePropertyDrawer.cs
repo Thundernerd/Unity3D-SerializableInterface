@@ -26,7 +26,6 @@ namespace TNRD
             activeDrawer = null;
             serializedProperty = property;
             genericType = GetGenericArgument();
-
             Assert.IsNotNull(genericType, "Unable to find generic argument, are you doing some shady inheritance?");
         }
 
