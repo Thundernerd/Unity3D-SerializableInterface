@@ -61,6 +61,7 @@ namespace TNRD.Utilities
                         (Comparison<AdvancedDropdownItem>)Sort, true
                     });
             }
+
             return item;
         }
 

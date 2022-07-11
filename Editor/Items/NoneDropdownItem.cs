@@ -11,7 +11,7 @@ namespace TNRD.Items
 
         public object GetValue()
         {
-            return default;
+            return null;
         }
     }
 }
