@@ -76,6 +76,9 @@ namespace TNRD.Drawers
         /// <inheritdoc />
         protected override void OnPropertiesClicked()
         {
+            if (RawReferenceValue == null)
+                return;
+            
             Type type = RawReferenceValue.GetType();
             string typeName = type.Name;
 
