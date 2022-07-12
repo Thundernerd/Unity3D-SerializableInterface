@@ -9,28 +9,12 @@ namespace TNRD.Drawers
     internal class RawReferenceDrawer : ReferenceDrawer, IReferenceDrawer
     {
         private readonly GUIContent label;
-        private readonly FieldInfo fieldInfo;
-
-        private object RawReferenceValue
-        {
-            get
-            {
-#if UNITY_2021_1_OR_NEWER
-                return RawReferenceProperty.managedReferenceValue;
-#else
-                ISerializableInterface instance =
-                    (ISerializableInterface)fieldInfo.GetValue(Property.serializedObject.targetObject);
-                return instance.GetRawReference();
-#endif
-            }
-        }
 
         /// <inheritdoc />
         public RawReferenceDrawer(SerializedProperty property, GUIContent label, Type genericType, FieldInfo fieldInfo)
-            : base(property, genericType)
+            : base(property, genericType, fieldInfo)
         {
             this.label = label;
-            this.fieldInfo = fieldInfo;
         }
 
         /// <inheritdoc />
@@ -71,6 +55,11 @@ namespace TNRD.Drawers
                 true);
 
             HandleDragAndDrop(objectFieldRect);
+        }
+
+        protected override void PingObject()
+        {
+            // No support for pinging raw objects for now (I guess this would ping the MonoScript?)
         }
 
         /// <inheritdoc />

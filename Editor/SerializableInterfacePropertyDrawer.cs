@@ -102,7 +102,7 @@ namespace TNRD
                 case ReferenceMode.Unity:
                     return original is UnityReferenceDrawer
                         ? original
-                        : new UnityReferenceDrawer(property, label, genericType);
+                        : new UnityReferenceDrawer(property, label, genericType, fieldInfo);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
