@@ -39,10 +39,9 @@ namespace TNRD.Drawers
 
         /// <inheritdoc />
         public RawReferenceDrawer(SerializedProperty property, GUIContent label, Type genericType, FieldInfo fieldInfo)
-            : base(property, genericType)
+            : base(property, genericType, fieldInfo)
         {
             this.label = label;
-            this.fieldInfo = fieldInfo;
         }
 
         /// <inheritdoc />
@@ -87,6 +86,11 @@ namespace TNRD.Drawers
             HandleDragAndDrop(objectFieldRect);
 
             previousPropertyPath = Property.propertyPath;
+        }
+
+        protected override void PingObject()
+        {
+            // No support for pinging raw objects for now (I guess this would ping the MonoScript?)
         }
 
         /// <inheritdoc />

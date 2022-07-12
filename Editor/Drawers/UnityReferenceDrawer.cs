@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using TNRD.Utilities;
 using UnityEditor;
 using UnityEngine;
@@ -10,8 +11,8 @@ namespace TNRD.Drawers
     {
         private readonly GUIContent label;
 
-        public UnityReferenceDrawer(SerializedProperty property, GUIContent label, Type genericType)
-            : base(property, genericType)
+        public UnityReferenceDrawer(SerializedProperty property, GUIContent label, Type genericType, FieldInfo fieldInfo)
+            : base(property, genericType, fieldInfo)
         {
             this.label = label;
         }
@@ -28,6 +29,11 @@ namespace TNRD.Drawers
             GUIContent objectContent = EditorGUIUtility.ObjectContent(unityReference, referenceType);
             CustomObjectDrawer.OnGUI(position, label, objectContent);
             HandleDragAndDrop(position);
+        }
+
+        protected override void PingObject()
+        {
+            EditorGUIUtility.PingObject((Object)PropertyValue);
         }
 
         protected override void OnPropertiesClicked()
