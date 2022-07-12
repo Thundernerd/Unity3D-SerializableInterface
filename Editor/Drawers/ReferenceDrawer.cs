@@ -139,7 +139,7 @@ namespace TNRD.Drawers
 
         private void OnItemSelected(ReferenceMode mode, object reference)
         {
-            ReferenceModeProperty.enumValueIndex = (int)mode;
+            ModeValue = mode;
             PropertyValue = reference;
         }
 
@@ -195,7 +195,7 @@ namespace TNRD.Drawers
             {
                 Type scriptType = monoScript.GetClass();
 
-                if (scriptType.IsSubclassOf(typeof(UnityEngine.Object)))
+                if (scriptType.IsSubclassOf(typeof(Object)))
                 {
                     SetDragAndDropMode(false);
                     return;
