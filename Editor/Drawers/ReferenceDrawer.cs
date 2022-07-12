@@ -226,12 +226,19 @@ namespace TNRD.Drawers
                     break;
                 case DragAndDropMode.Unity:
                     ModeValue = ReferenceMode.Unity;
-                    PropertyValue = DragAndDrop.objectReferences[0];
+                    PropertyValue = GetUnityObject(DragAndDrop.objectReferences[0]);
                     break;
                 case DragAndDropMode.None:
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private Object GetUnityObject(Object objectReference)
+        {
+            if(objectReference is GameObject gameObject)
+                return gameObject.GetComponent(GenericType);
+            return objectReference;
         }
 
         protected abstract void PingObject();
