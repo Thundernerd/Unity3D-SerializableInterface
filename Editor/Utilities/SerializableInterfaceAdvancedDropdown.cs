@@ -48,6 +48,11 @@ namespace TNRD.Utilities
                 .AddChild(new ClassesItemBuilder(interfaceType).Build())
                 .AddChild(new SceneItemBuilder(interfaceType, relevantScene).Build());
 
+            foreach (var dropdownItem in item.children)
+            {
+                dropdownItem.AddChild(new NoneDropdownItem());
+            }
+            
             if (canSort)
             {
                 sortChildrenMethod.Invoke(item,
@@ -62,6 +67,12 @@ namespace TNRD.Utilities
 
         private int Sort(AdvancedDropdownItem a, AdvancedDropdownItem b)
         {
+            // For aesthetic reasons. Always puts the None first
+            if (a is NoneDropdownItem)
+                return -1;
+            if (b is NoneDropdownItem)
+                return 1;
+            
             int childrenA = a.children.Count();
             int childrenB = b.children.Count();
 
