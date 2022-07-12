@@ -109,13 +109,17 @@ namespace TNRD.Drawers
 
         protected void HandleDragAndDrop(Rect position)
         {
+            if (!position.Contains(Event.current.mousePosition))
+                return;
+            
             if (Event.current.type == EventType.DragPerform)
             {
+                HandleDragUpdated();
                 HandleDragPerform();
             }
             else if (Event.current.type == EventType.DragUpdated)
             {
-                HandleDragUpdated(position);
+                HandleDragUpdated();
             }
         }
 
@@ -134,11 +138,8 @@ namespace TNRD.Drawers
             }
         }
 
-        private void HandleDragUpdated(Rect position)
+        private void HandleDragUpdated()
         {
-            if (!position.Contains(Event.current.mousePosition))
-                return;
-
             if (DragAndDrop.objectReferences.Length > 1)
             {
                 SetDragAndDropMode(false);
