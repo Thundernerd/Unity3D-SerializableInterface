@@ -188,7 +188,11 @@ namespace TNRD.Drawers
                     ReferenceModeProperty.enumValueIndex = (int)ReferenceMode.Raw;
                     break;
                 case DragAndDropMode.Unity:
-                    UnityReferenceProperty.objectReferenceValue = DragAndDrop.objectReferences[0];
+                    if(DragAndDrop.objectReferences[0] is GameObject go)
+                        UnityReferenceProperty.objectReferenceValue = go.GetComponent(GenericType);
+                    else
+                        UnityReferenceProperty.objectReferenceValue = DragAndDrop.objectReferences[0];
+                    
                     ReferenceModeProperty.enumValueIndex = (int)ReferenceMode.Unity;
                     break;
                 case DragAndDropMode.None:
