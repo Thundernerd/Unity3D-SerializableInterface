@@ -80,7 +80,7 @@ namespace TNRD.Drawers
                         UnityReferenceProperty.objectReferenceValue = null;
                         break;
                     case ReferenceMode.Unity:
-                        UnityReferenceProperty.objectReferenceValue = (Object)value;
+                        UnityReferenceProperty.objectReferenceValue = GetUnityObject((Object)value);
                         RawReferenceValue = null;
                         break;
                     default:
@@ -226,7 +226,7 @@ namespace TNRD.Drawers
                     break;
                 case DragAndDropMode.Unity:
                     ModeValue = ReferenceMode.Unity;
-                    PropertyValue = GetUnityObject(DragAndDrop.objectReferences[0]);
+                    PropertyValue = DragAndDrop.objectReferences[0];
                     break;
                 case DragAndDropMode.None:
                 default:
