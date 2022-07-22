@@ -94,6 +94,7 @@ namespace TNRD.Drawers
             else if (Event.button == 1 && positionWithoutThumb.Contains(Event.mousePosition))
             {
                 GenericMenu menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Clear"), false, () => { DeletePressed?.Invoke(); });
                 menu.AddItem(new GUIContent("Properties..."), false, () => { PropertiesClicked?.Invoke(); });
                 menu.DropDown(position);
                 Event.Use();
