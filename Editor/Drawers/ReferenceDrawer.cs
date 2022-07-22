@@ -113,13 +113,17 @@ namespace TNRD.Drawers
 
         protected void HandleDragAndDrop(Rect position)
         {
+            if (!position.Contains(Event.current.mousePosition))
+                return;
+            
             if (Event.current.type == EventType.DragPerform)
             {
+                HandleDragUpdated();
                 HandleDragPerform();
             }
             else if (Event.current.type == EventType.DragUpdated)
             {
-                HandleDragUpdated(position);
+                HandleDragUpdated();
             }
         }
 
@@ -138,11 +142,8 @@ namespace TNRD.Drawers
             }
         }
 
-        private void HandleDragUpdated(Rect position)
+        private void HandleDragUpdated()
         {
-            if (!position.Contains(Event.current.mousePosition))
-                return;
-
             if (DragAndDrop.objectReferences.Length > 1)
             {
                 SetDragAndDropMode(false);
@@ -191,7 +192,11 @@ namespace TNRD.Drawers
                     ReferenceModeProperty.enumValueIndex = (int)ReferenceMode.Raw;
                     break;
                 case DragAndDropMode.Unity:
-                    UnityReferenceProperty.objectReferenceValue = DragAndDrop.objectReferences[0];
+                    if(DragAndDrop.objectReferences[0] is GameObject go)
+                        UnityReferenceProperty.objectReferenceValue = go.GetComponent(GenericType);
+                    else
+                        UnityReferenceProperty.objectReferenceValue = DragAndDrop.objectReferences[0];
+                    
                     ReferenceModeProperty.enumValueIndex = (int)ReferenceMode.Unity;
                     break;
                 case DragAndDropMode.None:
