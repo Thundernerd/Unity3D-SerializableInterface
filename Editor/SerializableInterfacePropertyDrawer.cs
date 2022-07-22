@@ -16,10 +16,7 @@ namespace TNRD
         private IReferenceDrawer activeDrawer;
 
         /// <inheritdoc />
-        public override bool CanCacheInspectorGUI(SerializedProperty property)
-        {
-            return false;
-        }
+        public override bool CanCacheInspectorGUI(SerializedProperty property) => false;
 
         private void Initialize(SerializedProperty property)
         {

@@ -11,6 +11,9 @@ namespace TNRD.Drawers
         private readonly GUIContent label;
         private readonly FieldInfo fieldInfo;
 
+        private static object previousReferenceValue;
+        private static string previousPropertyPath;
+
         private object RawReferenceValue
         {
             get
@@ -21,6 +24,15 @@ namespace TNRD.Drawers
                 ISerializableInterface instance =
                     (ISerializableInterface)fieldInfo.GetValue(Property.serializedObject.targetObject);
                 return instance.GetRawReference();
+#endif
+            }
+
+            set
+            {
+#if UNITY_2021_1_OR_NEWER
+                RawReferenceProperty.managedReferenceValue = value;
+#else
+                fieldInfo.SetValue(Property.serializedObject.targetObject, value);
 #endif
             }
         }
@@ -47,6 +59,8 @@ namespace TNRD.Drawers
         /// <inheritdoc />
         public void OnGUI(Rect position)
         {
+            AvoidDuplicateReferencesInArray();
+
             Rect objectFieldRect = new Rect(position)
             {
                 height = EditorGUIUtility.singleLineHeight
@@ -71,6 +85,8 @@ namespace TNRD.Drawers
                 true);
 
             HandleDragAndDrop(objectFieldRect);
+
+            previousPropertyPath = Property.propertyPath;
         }
 
         /// <inheritdoc />
@@ -90,6 +106,42 @@ namespace TNRD.Drawers
                     return;
                 }
             }
+        }
+
+        private void AvoidDuplicateReferencesInArray()
+        {
+            if (!IsPropertyInArray(Property)) 
+                return;
+            if (previousPropertyPath == null) 
+                return;
+            if (previousPropertyPath == Property.propertyPath) 
+                return;
+
+            SerializedProperty rawReferenceProperty = Property.FindPropertyRelative("rawReference");
+            object currentReferenceValue = RawReferenceValue;
+
+            if (currentReferenceValue == null) 
+                return;
+
+            if (previousReferenceValue == currentReferenceValue)
+            {
+                RawReferenceValue = CreateInstance(currentReferenceValue);
+                rawReferenceProperty.serializedObject.ApplyModifiedProperties();
+            }
+
+            previousReferenceValue = currentReferenceValue;
+        }
+
+        private static bool IsPropertyInArray(SerializedProperty prop)
+        {
+            return prop.propertyPath.Contains(".Array.data[");
+        }
+
+        private static object CreateInstance(object source)
+        {
+            object instance = Activator.CreateInstance(source.GetType());
+            EditorUtility.CopySerializedManagedFieldsOnly(source, instance);
+            return instance;
         }
     }
 }
