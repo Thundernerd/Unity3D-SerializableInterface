@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TNRD.Drawers
 {
-    internal class RawReferenceDrawer : ReferenceDrawer, IReferenceDrawer
+    internal partial class RawReferenceDrawer : ReferenceDrawer, IReferenceDrawer
     {
         private GUIContent label;
         private FieldInfo fieldInfo;
@@ -26,9 +26,7 @@ namespace TNRD.Drawers
             if (RawReferenceValue == null)
                 return EditorGUIUtility.singleLineHeight;
 
-            return EditorGUIUtility.singleLineHeight +
-                   EditorGUIUtility.standardVerticalSpacing +
-                   EditorGUI.GetPropertyHeight(RawReferenceProperty, true);
+            return EditorGUI.GetPropertyHeight(RawReferenceProperty, true);
         }
 
         /// <inheritdoc />
@@ -53,16 +51,32 @@ namespace TNRD.Drawers
 
             if (rawReferenceValue == null)
                 return;
+            
+            DrawLine(position);
+            DrawProperty(position);
+            
+            previousPropertyPath = Property.propertyPath;
+        }
 
+        private void DrawProperty(Rect position)
+        {
             Rect objectDrawerRect = new Rect(position);
-            objectDrawerRect.yMin += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
+            
             EditorGUI.PropertyField(objectDrawerRect,
                 RawReferenceProperty,
-                new GUIContent(rawReferenceValue.GetType().Name),
+                GUIContent.none,
                 true);
+        }
 
-            previousPropertyPath = Property.propertyPath;
+        private void DrawLine(Rect position)
+        {
+            Rect line = new Rect(position)
+            {
+                width = 4,
+                yMin = position.yMin + EditorGUIUtility.singleLineHeight,
+                x = position.x + 2f
+            };
+            EditorGUI.DrawRect(line, Styles.LineColor);
         }
 
         protected override void PingObject()
