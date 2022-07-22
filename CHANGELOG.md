@@ -1,3 +1,10 @@
+### [1.7.2](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.7.1...v1.7.2) (2022-07-22)
+
+
+### Bug Fixes
+
+* updated actions/checkout to version 3 ([ef748e1](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/ef748e176b864cd3dfc00f3b96e9cedb8783055d))
+
 ### [1.7.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.7.0...v1.7.1) (2022-06-18)
 
 
