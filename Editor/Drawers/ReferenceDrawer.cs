@@ -21,24 +21,28 @@ namespace TNRD.Drawers
 
         private DragAndDropMode dragAndDropMode;
 
-        protected readonly SerializedProperty Property;
-        protected readonly Type GenericType;
         protected readonly CustomObjectDrawer CustomObjectDrawer;
+
+        protected SerializedProperty Property { get; private set; }
+        protected Type GenericType { get; private set; }
 
         protected SerializedProperty ReferenceModeProperty => Property.FindPropertyRelative("mode");
         protected SerializedProperty RawReferenceProperty => Property.FindPropertyRelative("rawReference");
         protected SerializedProperty UnityReferenceProperty => Property.FindPropertyRelative("unityReference");
 
-        protected ReferenceDrawer(SerializedProperty property, Type genericType)
+        protected ReferenceDrawer()
         {
-            Property = property;
-            GenericType = genericType;
-
             CustomObjectDrawer = new CustomObjectDrawer();
             CustomObjectDrawer.ButtonClicked += OnButtonClicked;
             CustomObjectDrawer.Clicked += OnClicked;
             CustomObjectDrawer.DeletePressed += OnDeletePressed;
             CustomObjectDrawer.PropertiesClicked += OnPropertiesClicked;
+        }
+
+        protected void Initialize(SerializedProperty property, Type genericType)
+        {
+            Property = property;
+            GenericType = genericType;
         }
 
         private void OnButtonClicked(Rect position)
