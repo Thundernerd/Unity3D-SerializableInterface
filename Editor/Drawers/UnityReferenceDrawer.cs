@@ -11,9 +11,9 @@ namespace TNRD.Drawers
     {
         private GUIContent label;
 
-        public void Initialize(SerializedProperty property, Type genericType, GUIContent label)
+        public void Initialize(SerializedProperty property, Type genericType, GUIContent label, FieldInfo fieldInfo)
         {
-            Initialize(property, genericType);
+            Initialize(property, genericType, fieldInfo);
             this.label = label;
         }
 

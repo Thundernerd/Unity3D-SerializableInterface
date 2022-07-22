@@ -31,7 +31,7 @@ namespace TNRD.Drawers
         protected SerializedProperty RawReferenceProperty => Property.FindPropertyRelative("rawReference");
         protected SerializedProperty UnityReferenceProperty => Property.FindPropertyRelative("unityReference");
 
-        protected readonly FieldInfo fieldInfo;
+        protected FieldInfo FieldInfo { get; private set; }
 
         protected ReferenceMode ModeValue
         {
@@ -47,7 +47,7 @@ namespace TNRD.Drawers
                 return RawReferenceProperty.managedReferenceValue;
 #else
                 ISerializableInterface instance =
-                    (ISerializableInterface)fieldInfo.GetValue(Property.serializedObject.targetObject);
+                    (ISerializableInterface)FieldInfo.GetValue(Property.serializedObject.targetObject);
                 return instance.GetRawReference();
 #endif
             }
@@ -56,7 +56,7 @@ namespace TNRD.Drawers
 #if UNITY_2021_1_OR_NEWER
                 RawReferenceProperty.managedReferenceValue = value;
 #else
-                fieldInfo.SetValue(Property.serializedObject.targetObject, value);
+                FieldInfo.SetValue(Property.serializedObject.targetObject, value);
 #endif
             }
         }
@@ -101,10 +101,11 @@ namespace TNRD.Drawers
             CustomObjectDrawer.PropertiesClicked += OnPropertiesClicked;
         }
 
-        protected void Initialize(SerializedProperty property, Type genericType)
+        protected void Initialize(SerializedProperty property, Type genericType, FieldInfo fieldInfo)
         {
             Property = property;
             GenericType = genericType;
+            FieldInfo = fieldInfo;
         }
 
         private void OnButtonClicked(Rect position)
@@ -137,6 +138,7 @@ namespace TNRD.Drawers
 
         private void OnDeletePressed()
         {
+            ModeValue = default;
             PropertyValue = null;
         }
 
