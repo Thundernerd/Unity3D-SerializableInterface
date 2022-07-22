@@ -1,3 +1,10 @@
+### [1.7.3](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.7.2...v1.7.3) (2022-07-22)
+
+
+### Refactors
+
+* property drawer now reuses cached reference drawers ([f930d8e](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/f930d8ed92b8358e417d075f9a089f7161cadc50))
+
 ### [1.7.2](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.7.1...v1.7.2) (2022-07-22)
 
 
