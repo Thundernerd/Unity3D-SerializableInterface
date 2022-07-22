@@ -90,7 +90,7 @@ namespace TNRD
                     rawReferenceDrawer.Initialize(property, genericType, label, fieldInfo);
                     return rawReferenceDrawer;
                 case ReferenceMode.Unity:
-                    unityReferenceDrawer.Initialize(property, genericType, label);
+                    unityReferenceDrawer.Initialize(property, genericType, label, fieldInfo);
                     return unityReferenceDrawer;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using TNRD.Utilities;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -30,6 +31,67 @@ namespace TNRD.Drawers
         protected SerializedProperty RawReferenceProperty => Property.FindPropertyRelative("rawReference");
         protected SerializedProperty UnityReferenceProperty => Property.FindPropertyRelative("unityReference");
 
+        protected FieldInfo FieldInfo { get; private set; }
+
+        protected ReferenceMode ModeValue
+        {
+            get => (ReferenceMode)ReferenceModeProperty.enumValueIndex;
+            set => ReferenceModeProperty.enumValueIndex = (int)value;
+        }
+
+        protected object RawReferenceValue
+        {
+            get
+            {
+#if UNITY_2021_1_OR_NEWER
+                return RawReferenceProperty.managedReferenceValue;
+#else
+                ISerializableInterface instance =
+                    (ISerializableInterface)FieldInfo.GetValue(Property.serializedObject.targetObject);
+                return instance.GetRawReference();
+#endif
+            }
+            set
+            {
+#if UNITY_2021_1_OR_NEWER
+                RawReferenceProperty.managedReferenceValue = value;
+#else
+                FieldInfo.SetValue(Property.serializedObject.targetObject, value);
+#endif
+            }
+        }
+
+        protected object PropertyValue
+        {
+            get
+            {
+                return ModeValue switch
+                {
+                    ReferenceMode.Raw => RawReferenceValue,
+                    ReferenceMode.Unity => UnityReferenceProperty.objectReferenceValue,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+            set
+            {
+                switch (ModeValue)
+                {
+                    case ReferenceMode.Raw:
+                        RawReferenceValue = value;
+                        UnityReferenceProperty.objectReferenceValue = null;
+                        break;
+                    case ReferenceMode.Unity:
+                        UnityReferenceProperty.objectReferenceValue = (Object)value;
+                        RawReferenceValue = null;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                Property.serializedObject.ApplyModifiedProperties();
+            }
+        }
+
         protected ReferenceDrawer()
         {
             CustomObjectDrawer = new CustomObjectDrawer();
@@ -39,10 +101,11 @@ namespace TNRD.Drawers
             CustomObjectDrawer.PropertiesClicked += OnPropertiesClicked;
         }
 
-        protected void Initialize(SerializedProperty property, Type genericType)
+        protected void Initialize(SerializedProperty property, Type genericType, FieldInfo fieldInfo)
         {
             Property = property;
             GenericType = genericType;
+            FieldInfo = fieldInfo;
         }
 
         private void OnButtonClicked(Rect position)
@@ -70,43 +133,18 @@ namespace TNRD.Drawers
 
         private void OnClicked()
         {
-            switch ((ReferenceMode)ReferenceModeProperty.enumValueIndex)
-            {
-                case ReferenceMode.Raw:
-                    // No support for pinging raw objects for now (I guess this would ping the MonoScript?)
-                    break;
-                case ReferenceMode.Unity:
-                    EditorGUIUtility.PingObject(UnityReferenceProperty.objectReferenceValue);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            PingObject();
         }
 
         private void OnDeletePressed()
         {
-            RawReferenceProperty.managedReferenceValue = null;
-            UnityReferenceProperty.objectReferenceValue = null;
-            Property.serializedObject.ApplyModifiedProperties();
+            PropertyValue = null;
         }
 
         private void OnItemSelected(ReferenceMode mode, object reference)
         {
-            ReferenceModeProperty.enumValueIndex = (int)mode;
-
-            switch (mode)
-            {
-                case ReferenceMode.Raw:
-                    RawReferenceProperty.managedReferenceValue = reference;
-                    break;
-                case ReferenceMode.Unity:
-                    UnityReferenceProperty.objectReferenceValue = (Object)reference;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-            }
-
-            Property.serializedObject.ApplyModifiedProperties();
+            ModeValue = mode;
+            PropertyValue = reference;
         }
 
         protected abstract void OnPropertiesClicked();
@@ -166,7 +204,7 @@ namespace TNRD.Drawers
                     SetDragAndDropMode(false);
                     return;
                 }
-                
+
                 if (!GenericType.IsAssignableFrom(scriptType))
                 {
                     SetDragAndDropMode(false);
@@ -187,22 +225,19 @@ namespace TNRD.Drawers
             switch (dragAndDropMode)
             {
                 case DragAndDropMode.Raw:
-                    RawReferenceProperty.managedReferenceValue =
-                        Activator.CreateInstance(((MonoScript)DragAndDrop.objectReferences[0]).GetClass());
-                    ReferenceModeProperty.enumValueIndex = (int)ReferenceMode.Raw;
+                    ModeValue = ReferenceMode.Raw;
+                    PropertyValue = Activator.CreateInstance(((MonoScript)DragAndDrop.objectReferences[0]).GetClass());
                     break;
                 case DragAndDropMode.Unity:
-                    if(DragAndDrop.objectReferences[0] is GameObject go)
-                        UnityReferenceProperty.objectReferenceValue = go.GetComponent(GenericType);
-                    else
-                        UnityReferenceProperty.objectReferenceValue = DragAndDrop.objectReferences[0];
-                    
-                    ReferenceModeProperty.enumValueIndex = (int)ReferenceMode.Unity;
+                    ModeValue = ReferenceMode.Unity;
+                    PropertyValue = DragAndDrop.objectReferences[0];
                     break;
                 case DragAndDropMode.None:
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        protected abstract void PingObject();
     }
 }

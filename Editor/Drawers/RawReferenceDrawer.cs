@@ -14,34 +14,10 @@ namespace TNRD.Drawers
         private object previousReferenceValue;
         private string previousPropertyPath;
 
-        private object RawReferenceValue
-        {
-            get
-            {
-#if UNITY_2021_1_OR_NEWER
-                return RawReferenceProperty.managedReferenceValue;
-#else
-                ISerializableInterface instance =
-                    (ISerializableInterface)fieldInfo.GetValue(Property.serializedObject.targetObject);
-                return instance.GetRawReference();
-#endif
-            }
-
-            set
-            {
-#if UNITY_2021_1_OR_NEWER
-                RawReferenceProperty.managedReferenceValue = value;
-#else
-                fieldInfo.SetValue(Property.serializedObject.targetObject, value);
-#endif
-            }
-        }
-
         public void Initialize(SerializedProperty property, Type genericType, GUIContent label, FieldInfo fieldInfo)
         {
-            Initialize(property, genericType);
+            Initialize(property, genericType, fieldInfo);
             this.label = label;
-            this.fieldInfo = fieldInfo;
         }
 
         /// <inheritdoc />
@@ -87,6 +63,11 @@ namespace TNRD.Drawers
                 true);
 
             previousPropertyPath = Property.propertyPath;
+        }
+
+        protected override void PingObject()
+        {
+            // No support for pinging raw objects for now (I guess this would ping the MonoScript?)
         }
 
         /// <inheritdoc />
