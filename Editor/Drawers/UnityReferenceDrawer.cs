@@ -9,11 +9,11 @@ namespace TNRD.Drawers
 {
     internal class UnityReferenceDrawer : ReferenceDrawer, IReferenceDrawer
     {
-        private readonly GUIContent label;
+        private GUIContent label;
 
-        public UnityReferenceDrawer(SerializedProperty property, GUIContent label, Type genericType, FieldInfo fieldInfo)
-            : base(property, genericType, fieldInfo)
+        public void Initialize(SerializedProperty property, Type genericType, GUIContent label)
         {
+            Initialize(property, genericType);
             this.label = label;
         }
 

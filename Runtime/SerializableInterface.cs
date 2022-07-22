@@ -9,7 +9,7 @@ namespace TNRD
     /// </summary>
     /// <typeparam name="TInterface">The type of the interface you want to serialize</typeparam>
     [Serializable]
-    public class SerializableInterface<TInterface> : ISerializableInterface
+    public class SerializableInterface<TInterface> : ISerializableInterface where TInterface : class
     {
         [HideInInspector, SerializeField] private ReferenceMode mode = ReferenceMode.Unity;
         [HideInInspector, SerializeField] private UnityEngine.Object unityReference;
@@ -21,8 +21,8 @@ namespace TNRD
             {
                 return mode switch
                 {
-                    ReferenceMode.Raw => (TInterface)rawReference,
-                    ReferenceMode.Unity => (TInterface)(object)unityReference,
+                    ReferenceMode.Raw => rawReference as TInterface,
+                    ReferenceMode.Unity => (object)unityReference as TInterface,
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
