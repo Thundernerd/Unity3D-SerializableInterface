@@ -10,10 +10,11 @@ namespace TNRD
     [CustomPropertyDrawer(typeof(SerializableInterface<>), true)]
     internal sealed class SerializableInterfacePropertyDrawer : PropertyDrawer
     {
+        private readonly RawReferenceDrawer rawReferenceDrawer = new RawReferenceDrawer();
+        private readonly UnityReferenceDrawer unityReferenceDrawer = new UnityReferenceDrawer();
+
         private SerializedProperty serializedProperty;
         private Type genericType;
-
-        private IReferenceDrawer activeDrawer;
 
         /// <inheritdoc />
         public override bool CanCacheInspectorGUI(SerializedProperty property) => false;
@@ -23,7 +24,6 @@ namespace TNRD
             if (serializedProperty == property)
                 return;
 
-            activeDrawer = null;
             serializedProperty = property;
             genericType = GetGenericArgument();
             Assert.IsNotNull(genericType, "Unable to find generic argument, are you doing some shady inheritance?");
@@ -33,16 +33,14 @@ namespace TNRD
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             Initialize(property);
-            activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
-            return activeDrawer.GetHeight();
+            return GetReferenceDrawer(property, label).GetHeight();
         }
 
         /// <inheritdoc />
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             Initialize(property);
-            activeDrawer = GetReferenceDrawer(activeDrawer, property, label);
-            activeDrawer.OnGUI(position);
+            GetReferenceDrawer(property, label).OnGUI(position);
         }
 
         private Type GetGenericArgument()
@@ -81,11 +79,7 @@ namespace TNRD
             return null;
         }
 
-        private IReferenceDrawer GetReferenceDrawer(
-            IReferenceDrawer original,
-            SerializedProperty property,
-            GUIContent label
-        )
+        private IReferenceDrawer GetReferenceDrawer(SerializedProperty property, GUIContent label)
         {
             SerializedProperty modeProperty = serializedProperty.FindPropertyRelative("mode");
             ReferenceMode referenceMode = (ReferenceMode)modeProperty.enumValueIndex;
@@ -93,13 +87,11 @@ namespace TNRD
             switch (referenceMode)
             {
                 case ReferenceMode.Raw:
-                    return original is RawReferenceDrawer
-                        ? original
-                        : new RawReferenceDrawer(property, label, genericType, fieldInfo);
+                    rawReferenceDrawer.Initialize(property, genericType, label, fieldInfo);
+                    return rawReferenceDrawer;
                 case ReferenceMode.Unity:
-                    return original is UnityReferenceDrawer
-                        ? original
-                        : new UnityReferenceDrawer(property, label, genericType, fieldInfo);
+                    unityReferenceDrawer.Initialize(property, genericType, label, fieldInfo);
+                    return unityReferenceDrawer;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

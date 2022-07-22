@@ -8,15 +8,38 @@ namespace TNRD.Drawers
 {
     internal class RawReferenceDrawer : ReferenceDrawer, IReferenceDrawer
     {
-        private readonly GUIContent label;
+        private GUIContent label;
+        private FieldInfo fieldInfo;
 
-        private static object previousReferenceValue;
-        private static string previousPropertyPath;
+        private object previousReferenceValue;
+        private string previousPropertyPath;
 
-        /// <inheritdoc />
-        public RawReferenceDrawer(SerializedProperty property, GUIContent label, Type genericType, FieldInfo fieldInfo)
-            : base(property, genericType, fieldInfo)
+        private object RawReferenceValue
         {
+            get
+            {
+#if UNITY_2021_1_OR_NEWER
+                return RawReferenceProperty.managedReferenceValue;
+#else
+                ISerializableInterface instance =
+                    (ISerializableInterface)fieldInfo.GetValue(Property.serializedObject.targetObject);
+                return instance.GetRawReference();
+#endif
+            }
+
+            set
+            {
+#if UNITY_2021_1_OR_NEWER
+                RawReferenceProperty.managedReferenceValue = value;
+#else
+                fieldInfo.SetValue(Property.serializedObject.targetObject, value);
+#endif
+            }
+        }
+
+        public void Initialize(SerializedProperty property, Type genericType, GUIContent label, FieldInfo fieldInfo)
+        {
+            Initialize(property, genericType);
             this.label = label;
         }
 
