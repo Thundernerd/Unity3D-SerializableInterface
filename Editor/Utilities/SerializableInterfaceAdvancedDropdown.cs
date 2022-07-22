@@ -48,7 +48,7 @@ namespace TNRD.Utilities
                 .AddChild(new ClassesItemBuilder(interfaceType).Build())
                 .AddChild(new SceneItemBuilder(interfaceType, relevantScene).Build());
 
-            foreach (var dropdownItem in item.children)
+            foreach (AdvancedDropdownItem dropdownItem in item.children)
             {
                 dropdownItem.AddChild(new NoneDropdownItem());
             }
