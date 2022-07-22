@@ -48,6 +48,9 @@ namespace TNRD.Drawers
                 : new GUIContent(rawReferenceValue.GetType().Name, IconUtility.ScriptIcon);
 
             CustomObjectDrawer.OnGUI(objectFieldRect, label, content);
+
+            HandleDragAndDrop(objectFieldRect);
+
             if (rawReferenceValue == null)
                 return;
 
@@ -58,8 +61,6 @@ namespace TNRD.Drawers
                 RawReferenceProperty,
                 new GUIContent(rawReferenceValue.GetType().Name),
                 true);
-
-            HandleDragAndDrop(objectFieldRect);
 
             previousPropertyPath = Property.propertyPath;
         }
@@ -72,6 +73,9 @@ namespace TNRD.Drawers
         /// <inheritdoc />
         protected override void OnPropertiesClicked()
         {
+            if (RawReferenceValue == null)
+                return;
+            
             Type type = RawReferenceValue.GetType();
             string typeName = type.Name;
 
