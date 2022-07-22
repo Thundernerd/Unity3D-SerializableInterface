@@ -8,11 +8,11 @@ namespace TNRD.Drawers
 {
     internal class RawReferenceDrawer : ReferenceDrawer, IReferenceDrawer
     {
-        private readonly GUIContent label;
-        private readonly FieldInfo fieldInfo;
+        private GUIContent label;
+        private FieldInfo fieldInfo;
 
-        private static object previousReferenceValue;
-        private static string previousPropertyPath;
+        private object previousReferenceValue;
+        private string previousPropertyPath;
 
         private object RawReferenceValue
         {
@@ -37,10 +37,9 @@ namespace TNRD.Drawers
             }
         }
 
-        /// <inheritdoc />
-        public RawReferenceDrawer(SerializedProperty property, GUIContent label, Type genericType, FieldInfo fieldInfo)
-            : base(property, genericType)
+        public void Initialize(SerializedProperty property, Type genericType, GUIContent label, FieldInfo fieldInfo)
         {
+            Initialize(property, genericType);
             this.label = label;
             this.fieldInfo = fieldInfo;
         }
