@@ -81,7 +81,7 @@ namespace TNRD.Drawers
                         UnityReferenceProperty.objectReferenceValue = null;
                         break;
                     case ReferenceMode.Unity:
-                        UnityReferenceProperty.objectReferenceValue = (Object)value;
+                        UnityReferenceProperty.objectReferenceValue = GetUnityObject((Object)value);
                         RawReferenceValue = null;
                         break;
                     default:
@@ -138,6 +138,7 @@ namespace TNRD.Drawers
 
         private void OnDeletePressed()
         {
+            ModeValue = default;
             PropertyValue = null;
         }
 
@@ -199,7 +200,7 @@ namespace TNRD.Drawers
             {
                 Type scriptType = monoScript.GetClass();
 
-                if (scriptType.IsSubclassOf(typeof(UnityEngine.Object)))
+                if (scriptType.IsSubclassOf(typeof(Object)))
                 {
                     SetDragAndDropMode(false);
                     return;
@@ -236,6 +237,13 @@ namespace TNRD.Drawers
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private Object GetUnityObject(Object objectReference)
+        {
+            if(objectReference is GameObject gameObject)
+                return gameObject.GetComponent(GenericType);
+            return objectReference;
         }
 
         protected abstract void PingObject();

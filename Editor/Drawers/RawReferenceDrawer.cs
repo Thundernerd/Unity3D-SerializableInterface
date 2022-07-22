@@ -101,17 +101,13 @@ namespace TNRD.Drawers
             if (previousPropertyPath == Property.propertyPath) 
                 return;
 
-            SerializedProperty rawReferenceProperty = Property.FindPropertyRelative("rawReference");
             object currentReferenceValue = RawReferenceValue;
 
             if (currentReferenceValue == null) 
                 return;
 
             if (previousReferenceValue == currentReferenceValue)
-            {
-                RawReferenceValue = CreateInstance(currentReferenceValue);
-                rawReferenceProperty.serializedObject.ApplyModifiedProperties();
-            }
+                PropertyValue = CreateInstance(currentReferenceValue);
 
             previousReferenceValue = currentReferenceValue;
         }

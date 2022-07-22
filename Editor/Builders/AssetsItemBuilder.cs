@@ -4,6 +4,7 @@ using TNRD.Items;
 using TNRD.Utilities;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace TNRD.Builders
@@ -36,6 +37,12 @@ namespace TNRD.Builders
                 if (interfaceType.IsAssignableFrom(assetType))
                 {
                     CreateItemForPath(root, assetPath);
+                }
+                else if (assetType == typeof(GameObject))
+                {
+                    GameObject gameObject = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+                    if (gameObject.GetComponent(interfaceType) != null)
+                        CreateItemForPath(root, assetPath);
                 }
             }
 
