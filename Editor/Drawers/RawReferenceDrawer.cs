@@ -94,7 +94,8 @@ namespace TNRD.Drawers
 
         private void AvoidDuplicateReferencesInArray()
         {
-            if (!ShouldCheckProperty()) return;
+            if (!ShouldCheckProperty()) 
+                return;
 
             object currentReferenceValue = RawReferenceValue;
 
