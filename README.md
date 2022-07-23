@@ -61,7 +61,7 @@ And when you click on the object selector button you will be shown a dropdown wi
 ![image](https://user-images.githubusercontent.com/5531467/164994604-15a0d060-72d1-440b-926b-883dd5f31955.png)
 
 As you can see you can select items from multiple locations:
-- Assets (Scriptable Objects that implement said interface)
+- Assets (Scriptable Objects and Prefabs that implement said interface)
 - Classes (custom classes that implement said interface)
 - Scene (objects in the scene that implement said interface)
 
