@@ -2,7 +2,7 @@
 {
     internal enum ReferenceMode
     {
-        Raw,
-        Unity
+        Unity,
+        Raw
     }
 }

@@ -94,12 +94,7 @@ namespace TNRD.Drawers
 
         private void AvoidDuplicateReferencesInArray()
         {
-            if (!IsPropertyInArray(Property)) 
-                return;
-            if (previousPropertyPath == null) 
-                return;
-            if (previousPropertyPath == Property.propertyPath) 
-                return;
+            if (!ShouldCheckProperty()) return;
 
             object currentReferenceValue = RawReferenceValue;
 
@@ -107,9 +102,19 @@ namespace TNRD.Drawers
                 return;
 
             if (previousReferenceValue == currentReferenceValue)
-                PropertyValue = CreateInstance(currentReferenceValue);
+            {
+                currentReferenceValue = CreateInstance(currentReferenceValue);
+                PropertyValue = currentReferenceValue;
+            }
 
             previousReferenceValue = currentReferenceValue;
+        }
+
+        private bool ShouldCheckProperty()
+        {
+            return IsPropertyInArray(Property) && 
+                   previousPropertyPath != null && 
+                   previousPropertyPath != Property.propertyPath;
         }
 
         private static bool IsPropertyInArray(SerializedProperty prop)
