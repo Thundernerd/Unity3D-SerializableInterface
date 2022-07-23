@@ -1,3 +1,19 @@
+### [1.9.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.8.0...v1.9.0) (2202-07-23)
+
+
+### What's Changed
+* Added RawReferenceDrawer.Styles.cs + DrawLine - #41 by @marc-antoine-girard in https://github.com/Thundernerd/Unity3D-SerializableInterface/pull/42
+* ReferenceMode + AvoidDuplicateReferencesInArray by @marc-antoine-girard in https://github.com/Thundernerd/Unity3D-SerializableInterface/pull/43
+
+### [1.8.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.7.3...v1.8.0) (2022-07-22)
+
+### What's Changed
+* fix: added null check to prevent null reference exception when clicking properties by @marc-antoine-girard in https://github.com/Thundernerd/Unity3D-SerializableInterface/pull/23
+* #24 add none option custom drawers by @marc-antoine-girard in https://github.com/Thundernerd/Unity3D-SerializableInterface/pull/26
+* Fixed Drag and Drop behaviour by @marc-antoine-girard in https://github.com/Thundernerd/Unity3D-SerializableInterface/pull/28
+* Fixes #25 SerializableInterface maintains instances when set by Inspector by @marc-antoine-girard in https://github.com/Thundernerd/Unity3D-SerializableInterface/pull/27
+* #34 add prefabs assets item builder by @marc-antoine-girard in https://github.com/Thundernerd/Unity3D-SerializableInterface/pull/35
+
 ### [1.7.3](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.7.2...v1.7.3) (2022-07-22)
 
 
