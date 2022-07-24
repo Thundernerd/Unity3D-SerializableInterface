@@ -67,18 +67,18 @@ namespace TNRD.Drawers
             FieldInfo = fieldInfo;
         }
 
-        private void OnButtonClicked(Rect position)
+        private void OnButtonClicked(Rect position, SerializedProperty property)
         {
             AdvancedDropdownState state = new AdvancedDropdownState();
             SerializableInterfaceAdvancedDropdown dropdown =
-                new SerializableInterfaceAdvancedDropdown(state, GenericType, GetRelevantScene());
+                new SerializableInterfaceAdvancedDropdown(state, GenericType, GetRelevantScene(property), property);
             dropdown.ItemSelectedEvent += OnItemSelected;
             dropdown.Show(position);
         }
 
-        private Scene? GetRelevantScene()
+        private static Scene? GetRelevantScene(SerializedProperty property)
         {
-            Object target = Property.serializedObject.targetObject;
+            Object target = property.serializedObject.targetObject;
 
             if (target is ScriptableObject)
                 return null;
@@ -90,30 +90,30 @@ namespace TNRD.Drawers
             return null;
         }
 
-        private void OnClicked()
+        private void OnClicked(SerializedProperty property)
         {
-            PingObject();
+            PingObject(property);
         }
 
-        private void OnDeletePressed()
+        private void OnDeletePressed(SerializedProperty property)
         {
-            ModeValue = default;
-            PropertyValue = null;
+            SetModeValue(property, default);
+            SetPropertyValue(property, null);
         }
 
-        private void OnItemSelected(ReferenceMode mode, object reference)
+        private void OnItemSelected(SerializedProperty property, ReferenceMode mode, object reference)
         {
-            ModeValue = mode;
-            PropertyValue = reference;
+            SetModeValue(property, mode);
+            SetPropertyValue(property, reference);
         }
 
-        protected abstract void OnPropertiesClicked();
+        protected abstract void OnPropertiesClicked(SerializedProperty property);
 
         protected void HandleDragAndDrop(Rect position)
         {
             if (!position.Contains(Event.current.mousePosition))
                 return;
-            
+
             if (Event.current.type == EventType.DragPerform)
             {
                 HandleDragUpdated();
@@ -200,12 +200,12 @@ namespace TNRD.Drawers
 
         private Object GetUnityObject(Object objectReference)
         {
-            if(objectReference is GameObject gameObject)
+            if (objectReference is GameObject gameObject)
                 return gameObject.GetComponent(GenericType);
             return objectReference;
         }
 
-        protected abstract void PingObject();
+        protected abstract void PingObject(SerializedProperty property);
 
         protected ReferenceMode GetModeValue(SerializedProperty property)
         {

@@ -27,18 +27,18 @@ namespace TNRD.Drawers
             Object unityReference = UnityReferenceProperty.objectReferenceValue;
             Type referenceType = unityReference == null ? typeof(Object) : unityReference.GetType();
             GUIContent objectContent = EditorGUIUtility.ObjectContent(unityReference, referenceType);
-            CustomObjectDrawer.OnGUI(position, label, objectContent);
+            CustomObjectDrawer.OnGUI(position, label, objectContent, Property);
             HandleDragAndDrop(position);
         }
 
-        protected override void PingObject()
+        protected override void PingObject(SerializedProperty property)
         {
-            EditorGUIUtility.PingObject((Object)PropertyValue);
+            EditorGUIUtility.PingObject((Object)GetPropertyValue(property));
         }
 
-        protected override void OnPropertiesClicked()
+        protected override void OnPropertiesClicked(SerializedProperty property)
         {
-            PropertyEditorUtility.Show(UnityReferenceProperty.objectReferenceValue);
+            PropertyEditorUtility.Show(property.UnityReferenceProperty().objectReferenceValue);
         }
     }
 }

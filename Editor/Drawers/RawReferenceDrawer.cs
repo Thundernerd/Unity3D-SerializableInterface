@@ -45,7 +45,7 @@ namespace TNRD.Drawers
                 ? EditorGUIUtility.ObjectContent((MonoScript)null, typeof(MonoScript))
                 : new GUIContent(rawReferenceValue.GetType().Name, IconUtility.ScriptIcon);
 
-            CustomObjectDrawer.OnGUI(objectFieldRect, label, content);
+            CustomObjectDrawer.OnGUI(objectFieldRect, label, content, Property);
 
             HandleDragAndDrop(objectFieldRect);
 
@@ -79,13 +79,13 @@ namespace TNRD.Drawers
             EditorGUI.DrawRect(line, Styles.LineColor);
         }
 
-        protected override void PingObject()
+        protected override void PingObject(SerializedProperty property)
         {
             // No support for pinging raw objects for now (I guess this would ping the MonoScript?)
         }
 
         /// <inheritdoc />
-        protected override void OnPropertiesClicked()
+        protected override void OnPropertiesClicked(SerializedProperty property)
         {
             if (RawReferenceValue == null)
                 return;

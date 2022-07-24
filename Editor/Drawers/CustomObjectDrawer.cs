@@ -5,13 +5,13 @@ namespace TNRD.Drawers
 {
     public partial class CustomObjectDrawer
     {
-        public delegate void ButtonClickedDelegate(Rect position);
+        public delegate void ButtonClickedDelegate(Rect position, SerializedProperty property);
 
-        public delegate void ClickedDelegate();
+        public delegate void ClickedDelegate(SerializedProperty property);
 
-        public delegate void DeletePressedDelegate();
+        public delegate void DeletePressedDelegate(SerializedProperty property);
 
-        public delegate void PropertiesClickedDelegate();
+        public delegate void PropertiesClickedDelegate(SerializedProperty property);
 
         private bool isSelected;
 
@@ -21,18 +21,18 @@ namespace TNRD.Drawers
         public event ClickedDelegate Clicked;
         public event DeletePressedDelegate DeletePressed;
         public event PropertiesClickedDelegate PropertiesClicked;
-
-        public void OnGUI(Rect position, GUIContent label, GUIContent content)
+        
+        public void OnGUI(Rect position, GUIContent label, GUIContent content, SerializedProperty property)
         {
             Rect positionWithoutThumb = new Rect(position);
             positionWithoutThumb.xMax -= 20;
 
             position = DrawPrefixLabel(position, label);
             DrawObjectField(position, content);
-            DrawButton(position);
+            DrawButton(position, property);
 
-            HandleMouseDown(position, positionWithoutThumb);
-            HandleKeyDown();
+            HandleMouseDown(position, positionWithoutThumb, property);
+            HandleKeyDown(property);
         }
 
         private Rect DrawPrefixLabel(Rect position, GUIContent label)
@@ -66,7 +66,7 @@ namespace TNRD.Drawers
             }
         }
 
-        private void DrawButton(Rect position)
+        private void DrawButton(Rect position, SerializedProperty property)
         {
             Rect buttonRect = new Rect(position);
             buttonRect.yMin += 1;
@@ -76,11 +76,11 @@ namespace TNRD.Drawers
 
             if (GUI.Button(buttonRect, string.Empty, "objectFieldButton"))
             {
-                ButtonClicked?.Invoke(position);
+                ButtonClicked?.Invoke(position, property);
             }
         }
 
-        private void HandleMouseDown(Rect position, Rect positionWithoutThumb)
+        private void HandleMouseDown(Rect position, Rect positionWithoutThumb, SerializedProperty property)
         {
             if (Event.type != EventType.MouseDown)
                 return;
@@ -89,26 +89,26 @@ namespace TNRD.Drawers
             {
                 isSelected = positionWithoutThumb.Contains(Event.mousePosition);
                 ForceRepaintEditors();
-                Clicked?.Invoke();
+                Clicked?.Invoke(property);
             }
             else if (Event.button == 1 && positionWithoutThumb.Contains(Event.mousePosition))
             {
                 GenericMenu menu = new GenericMenu();
-                menu.AddItem(new GUIContent("Clear"), false, () => { DeletePressed?.Invoke(); });
-                menu.AddItem(new GUIContent("Properties..."), false, () => { PropertiesClicked?.Invoke(); });
+                menu.AddItem(new GUIContent("Clear"), false, () => { DeletePressed?.Invoke(property); });
+                menu.AddItem(new GUIContent("Properties..."), false, () => { PropertiesClicked?.Invoke(property); });
                 menu.DropDown(position);
                 Event.Use();
             }
         }
 
-        private void HandleKeyDown()
+        private void HandleKeyDown(SerializedProperty property)
         {
             if (!isSelected)
                 return;
 
             if (Event.type == EventType.KeyDown && Event.keyCode == KeyCode.Delete)
             {
-                DeletePressed?.Invoke();
+                DeletePressed?.Invoke(property);
             }
         }
     }
