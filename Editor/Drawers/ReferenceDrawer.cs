@@ -27,69 +27,28 @@ namespace TNRD.Drawers
         protected SerializedProperty Property { get; private set; }
         protected Type GenericType { get; private set; }
 
-        protected SerializedProperty ReferenceModeProperty => Property.FindPropertyRelative("mode");
-        protected SerializedProperty RawReferenceProperty => Property.FindPropertyRelative("rawReference");
-        protected SerializedProperty UnityReferenceProperty => Property.FindPropertyRelative("unityReference");
+        protected SerializedProperty ReferenceModeProperty => Property.ReferenceModeProperty();
+        protected SerializedProperty RawReferenceProperty => Property.RawReferenceProperty();
+        protected SerializedProperty UnityReferenceProperty => Property.UnityReferenceProperty();
 
         protected FieldInfo FieldInfo { get; private set; }
 
         protected ReferenceMode ModeValue
         {
-            get => (ReferenceMode)ReferenceModeProperty.enumValueIndex;
-            set => ReferenceModeProperty.enumValueIndex = (int)value;
+            get => GetModeValue(Property);
+            set => SetModeValue(Property, value);
         }
 
         protected object RawReferenceValue
         {
-            get
-            {
-#if UNITY_2021_1_OR_NEWER
-                return RawReferenceProperty.managedReferenceValue;
-#else
-                ISerializableInterface instance =
-                    (ISerializableInterface)FieldInfo.GetValue(Property.serializedObject.targetObject);
-                return instance.GetRawReference();
-#endif
-            }
-            set
-            {
-#if UNITY_2021_1_OR_NEWER
-                RawReferenceProperty.managedReferenceValue = value;
-#else
-                FieldInfo.SetValue(Property.serializedObject.targetObject, value);
-#endif
-            }
+            get => GetRawReferenceValue(Property);
+            set => SetRawReferenceValue(Property, value);
         }
 
         protected object PropertyValue
         {
-            get
-            {
-                return ModeValue switch
-                {
-                    ReferenceMode.Raw => RawReferenceValue,
-                    ReferenceMode.Unity => UnityReferenceProperty.objectReferenceValue,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-            set
-            {
-                switch (ModeValue)
-                {
-                    case ReferenceMode.Raw:
-                        RawReferenceValue = value;
-                        UnityReferenceProperty.objectReferenceValue = null;
-                        break;
-                    case ReferenceMode.Unity:
-                        UnityReferenceProperty.objectReferenceValue = GetUnityObject((Object)value);
-                        RawReferenceValue = null;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                Property.serializedObject.ApplyModifiedProperties();
-            }
+            get => GetPropertyValue(Property);
+            set => SetPropertyValue(Property, value);
         }
 
         protected ReferenceDrawer()
@@ -247,5 +206,74 @@ namespace TNRD.Drawers
         }
 
         protected abstract void PingObject();
+
+        protected ReferenceMode GetModeValue(SerializedProperty property)
+        {
+            return (ReferenceMode)property.ReferenceModeProperty().enumValueIndex;
+        }
+
+        protected void SetModeValue(SerializedProperty property, ReferenceMode mode)
+        {
+            property.ReferenceModeProperty().enumValueIndex = (int)mode;
+        }
+
+        protected object GetRawReferenceValue(SerializedProperty property)
+        {
+#if UNITY_2021_1_OR_NEWER
+            return property.RawReferenceProperty().managedReferenceValue;
+#else
+                ISerializableInterface instance =
+                    (ISerializableInterface)FieldInfo.GetValue(property.serializedObject.targetObject);
+                return instance.GetRawReference();
+#endif
+        }
+
+        protected void SetRawReferenceValue(SerializedProperty property, object value)
+        {
+#if UNITY_2021_1_OR_NEWER
+            property.RawReferenceProperty().managedReferenceValue = value;
+#else
+            FieldInfo.SetValue(property.serializedObject.targetObject, value);
+#endif
+        }
+
+        protected Object GetUnityReferenceValue(SerializedProperty property)
+        {
+            return property.UnityReferenceProperty().objectReferenceValue;
+        }
+
+        protected void SetUnityReferenceValue(SerializedProperty property, object value)
+        {
+            property.UnityReferenceProperty().objectReferenceValue = GetUnityObject((Object)value);
+        }
+
+        protected object GetPropertyValue(SerializedProperty property)
+        {
+            return GetModeValue(property) switch
+            {
+                ReferenceMode.Raw => GetRawReferenceValue(property),
+                ReferenceMode.Unity => GetUnityReferenceValue(property),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        protected void SetPropertyValue(SerializedProperty property, object value)
+        {
+            switch (GetModeValue(property))
+            {
+                case ReferenceMode.Unity:
+                    SetUnityReferenceValue(property, value);
+                    SetRawReferenceValue(property, null);
+                    break;
+                case ReferenceMode.Raw:
+                    SetRawReferenceValue(property, value);
+                    SetUnityReferenceValue(property, null);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            property.serializedObject.ApplyModifiedProperties();
+        }
     }
 }
