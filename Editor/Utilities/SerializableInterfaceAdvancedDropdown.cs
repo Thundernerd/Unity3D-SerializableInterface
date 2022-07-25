@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using TNRD.Builders;
 using TNRD.Items;
+using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -16,8 +17,9 @@ namespace TNRD.Utilities
         private readonly MethodInfo sortChildrenMethod;
         private readonly bool canSort;
         private readonly Scene? relevantScene;
+        private readonly SerializedProperty property;
 
-        public delegate void ItemSelectedDelegate(ReferenceMode mode, object reference);
+        public delegate void ItemSelectedDelegate(SerializedProperty property, ReferenceMode mode, object reference);
 
         public event ItemSelectedDelegate ItemSelectedEvent; // Suffixed with Event because of the override
 
@@ -25,7 +27,8 @@ namespace TNRD.Utilities
         public SerializableInterfaceAdvancedDropdown(
             AdvancedDropdownState state,
             Type interfaceType,
-            Scene? relevantScene
+            Scene? relevantScene,
+            SerializedProperty property
         )
             : base(state)
         {
@@ -38,6 +41,7 @@ namespace TNRD.Utilities
             minimumSize = new Vector2(0, 300);
             this.interfaceType = interfaceType;
             this.relevantScene = relevantScene;
+            this.property = property;
         }
 
         /// <inheritdoc />
@@ -52,7 +56,7 @@ namespace TNRD.Utilities
             {
                 dropdownItem.AddChild(new NoneDropdownItem());
             }
-            
+
             if (canSort)
             {
                 sortChildrenMethod.Invoke(item,
@@ -72,7 +76,7 @@ namespace TNRD.Utilities
                 return -1;
             if (b is NoneDropdownItem)
                 return 1;
-            
+
             int childrenA = a.children.Count();
             int childrenB = b.children.Count();
 
@@ -90,7 +94,7 @@ namespace TNRD.Utilities
         {
             if (item is IDropdownItem dropdownItem)
             {
-                ItemSelectedEvent?.Invoke(dropdownItem.Mode, dropdownItem.GetValue());
+                ItemSelectedEvent?.Invoke(property, dropdownItem.Mode, dropdownItem.GetValue());
             }
         }
     }
