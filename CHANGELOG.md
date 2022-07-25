@@ -1,3 +1,12 @@
+## [1.10.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.9.0...v1.10.0) (2022-07-25)
+
+
+### Features
+
+* added methods for getting and setting values with serialized properties ([aba0c30](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/aba0c305b87ab843a3842d584a38d58487e61a89))
+* added passing serialized property to CustomObjectDrawer and Dropdown ([5913ab7](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/5913ab76e7759e2264a2979081972468dcae2f40))
+* added serialized property extensions for convenience ([547c892](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/547c89271c892ca1bfa14e30958437c379dc9853))
+
 ### [1.9.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.8.0...v1.9.0) (2202-07-23)
 
 
