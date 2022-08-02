@@ -72,9 +72,9 @@ namespace TNRD.Drawers
         {
             Rect line = new Rect(position)
             {
-                width = 4,
+                width = 5,
                 yMin = position.yMin + EditorGUIUtility.singleLineHeight,
-                x = position.x + 2f
+                x = position.x + EditorGUI.indentLevel * 15 - 9
             };
             EditorGUI.DrawRect(line, Styles.LineColor);
         }
