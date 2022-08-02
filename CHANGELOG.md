@@ -1,3 +1,10 @@
+## [1.11.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.10.0...v1.11.0) (2022-08-02)
+
+
+### Features
+
+* added methods for getting value combined with null checks ([1154dbb](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/1154dbb8f30476daf62fdbe445dfa520615bef5a))
+
 ## [1.10.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.9.0...v1.10.0) (2022-07-25)
 
 
