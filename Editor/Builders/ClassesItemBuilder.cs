@@ -56,7 +56,7 @@ namespace TNRD.Builders
             foreach (string split in splits)
             {
                 currentPath += split + '.';
-                
+
                 if (splitToItem.TryGetValue(currentPath, out AdvancedDropdownItem foundItem))
                 {
                     splitItem = foundItem;

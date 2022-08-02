@@ -21,7 +21,7 @@ namespace TNRD.Drawers
         public event ClickedDelegate Clicked;
         public event DeletePressedDelegate DeletePressed;
         public event PropertiesClickedDelegate PropertiesClicked;
-        
+
         public void OnGUI(Rect position, GUIContent label, GUIContent content, SerializedProperty property)
         {
             Rect positionWithoutThumb = new Rect(position);

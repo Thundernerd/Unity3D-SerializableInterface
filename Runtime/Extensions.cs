@@ -31,7 +31,7 @@ namespace TNRD
             value = serializableInterface.Value;
             return true;
         }
-        
+
         /// <inheritdoc cref="IsDefined{TInterface}"/>
         public static bool TryGetValue<TInterface>(
             this SerializableInterface<TInterface> serializableInterface,

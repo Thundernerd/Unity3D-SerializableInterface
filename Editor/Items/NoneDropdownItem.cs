@@ -2,9 +2,12 @@
 
 namespace TNRD.Items
 {
-    public class NoneDropdownItem  : AdvancedDropdownItem, IDropdownItem
+    public class NoneDropdownItem : AdvancedDropdownItem, IDropdownItem
     {
-        public NoneDropdownItem() : base("None") { }
+        public NoneDropdownItem()
+            : base("None")
+        {
+        }
 
         ReferenceMode IDropdownItem.Mode => ReferenceMode.Raw;
 

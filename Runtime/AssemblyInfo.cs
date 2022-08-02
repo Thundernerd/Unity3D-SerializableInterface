@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("TNRD.SerializableInterface.Editor")]
+[assembly: InternalsVisibleTo("TNRD.SerializableInterface.Editor")]

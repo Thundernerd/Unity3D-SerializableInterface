@@ -51,32 +51,17 @@ namespace TNRD.Drawers
 
             if (rawReferenceValue == null)
                 return;
-            
-            DrawLine(position);
+
             DrawProperty(position);
-            
             previousPropertyPath = Property.propertyPath;
         }
 
         private void DrawProperty(Rect position)
         {
-            Rect objectDrawerRect = new Rect(position);
-            
-            EditorGUI.PropertyField(objectDrawerRect,
+            EditorGUI.PropertyField(position,
                 RawReferenceProperty,
                 GUIContent.none,
                 true);
-        }
-
-        private void DrawLine(Rect position)
-        {
-            Rect line = new Rect(position)
-            {
-                width = 5,
-                yMin = position.yMin + EditorGUIUtility.singleLineHeight,
-                x = position.x + EditorGUI.indentLevel * 15 - 9
-            };
-            EditorGUI.DrawRect(line, Styles.LineColor);
         }
 
         protected override void PingObject(SerializedProperty property)
@@ -89,7 +74,7 @@ namespace TNRD.Drawers
         {
             if (RawReferenceValue == null)
                 return;
-            
+
             Type type = RawReferenceValue.GetType();
             string typeName = type.Name;
 
@@ -108,12 +93,12 @@ namespace TNRD.Drawers
 
         private void AvoidDuplicateReferencesInArray()
         {
-            if (!ShouldCheckProperty()) 
+            if (!ShouldCheckProperty())
                 return;
 
             object currentReferenceValue = RawReferenceValue;
 
-            if (currentReferenceValue == null) 
+            if (currentReferenceValue == null)
                 return;
 
             if (previousReferenceValue == currentReferenceValue)
@@ -127,8 +112,8 @@ namespace TNRD.Drawers
 
         private bool ShouldCheckProperty()
         {
-            return IsPropertyInArray(Property) && 
-                   previousPropertyPath != null && 
+            return IsPropertyInArray(Property) &&
+                   previousPropertyPath != null &&
                    previousPropertyPath != Property.propertyPath;
         }
 
