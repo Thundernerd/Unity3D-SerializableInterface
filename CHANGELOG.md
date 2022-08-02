@@ -1,3 +1,10 @@
+### [1.11.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.11.0...v1.11.1) (2022-08-02)
+
+
+### Bug Fixes
+
+* removed custom line drawing to look more like Unity native ([65b7329](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/65b73293c6f7212db578bb1e1313ea1789abc8d0))
+
 ## [1.11.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.10.0...v1.11.0) (2022-08-02)
 
 
