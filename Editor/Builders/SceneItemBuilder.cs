@@ -35,7 +35,7 @@ namespace TNRD.Builders
             AdvancedDropdownItem root = new AdvancedDropdownItemWrapper("Scene");
 
             GameObject[] rootGameObjects = scene.Value.GetRootGameObjects();
-            
+
             foreach (GameObject rootGameObject in rootGameObjects)
             {
                 CreateItemsRecursive(rootGameObject.transform, root);
@@ -52,12 +52,12 @@ namespace TNRD.Builders
             };
 
             Component[] components = transform.GetComponents(interfaceType);
-            
+
             foreach (Component component in components)
             {
                 advancedDropdownItem.AddChild(new SceneDropdownItem(component));
             }
-            
+
             foreach (Transform child in transform)
             {
                 CreateItemsRecursive(child, advancedDropdownItem);
