@@ -5,7 +5,7 @@ namespace TNRD.Utilities
 {
     internal static class IconUtility
     {
-#if UNITY_2021_3_OR_NEWER || UNITY_2020_3
+#if UNITY_2021_2_OR_NEWER
         private static Texture2D folderIcon;
 
         public static Texture2D FolderIcon
