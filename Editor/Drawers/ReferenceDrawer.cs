@@ -222,9 +222,8 @@ namespace TNRD.Drawers
 #if UNITY_2021_2_OR_NEWER
             return property.RawReferenceProperty().managedReferenceValue;
 #else
-                ISerializableInterface instance =
-                    (ISerializableInterface)FieldInfo.GetValue(property.serializedObject.targetObject);
-                return instance.GetRawReference();
+            var target = (ISerializableInterface) SerializedPropertiesUtils.GetTargetObjectOfProperty(property);
+            return target.GetRawReference();
 #endif
         }
 
