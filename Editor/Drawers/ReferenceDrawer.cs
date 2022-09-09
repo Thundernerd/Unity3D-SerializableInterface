@@ -222,7 +222,7 @@ namespace TNRD.Drawers
 #if UNITY_2021_2_OR_NEWER
             return property.RawReferenceProperty().managedReferenceValue;
 #else
-            var target = (ISerializableInterface) SerializedPropertiesUtils.GetTargetObjectOfProperty(property);
+            ISerializableInterface target = (ISerializableInterface) SerializedPropertyUtilities.GetValue(property);
             return target.GetRawReference();
 #endif
         }
