@@ -1,3 +1,10 @@
+## [1.12.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.11.1...v1.12.0) (2022-09-09)
+
+
+### Features
+
+* added GetValue method for accurately getting a serialized property's value ([96c08c8](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/96c08c88ec3e5f76e34067663ad20b80cd6b6c0f))
+
 ### [1.11.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.11.0...v1.11.1) (2022-08-02)
 
 
