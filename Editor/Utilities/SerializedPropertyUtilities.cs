@@ -41,7 +41,7 @@ namespace TNRD.Utilities
             object targetObject = property.serializedObject.targetObject;
             string[] elements = path.Split('.');
 
-            for (int i = 0; i < elements.Length - 1; i++)
+            for (int i = 0; i < elements.Length; i++)
             {
                 string element = elements[i];
                 if (element.Contains("["))

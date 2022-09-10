@@ -219,12 +219,11 @@ namespace TNRD.Drawers
 
         protected object GetRawReferenceValue(SerializedProperty property)
         {
-#if UNITY_2021_1_OR_NEWER
+#if UNITY_2021_2_OR_NEWER
             return property.RawReferenceProperty().managedReferenceValue;
 #else
-                ISerializableInterface instance =
-                    (ISerializableInterface)FieldInfo.GetValue(property.serializedObject.targetObject);
-                return instance.GetRawReference();
+            ISerializableInterface target = (ISerializableInterface) SerializedPropertyUtilities.GetValue(property);
+            return target.GetRawReference();
 #endif
         }
 
