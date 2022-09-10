@@ -1,3 +1,13 @@
+### [1.12.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.12.0...v1.12.1) (2022-09-10)
+
+
+### Bug Fixes
+
+* fix editor drawing of managed classes inside list ([8d66349](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/8d663496eef8eab34e5553617ad9697d3e61d8f1))
+* fix issue with unity version 2021.1 ([d81e9df](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/d81e9df6fbc4fb0eb2ca70c7b3a46418045923aa)), closes [Thundernerd/Unity3D-SerializableInterface#51](https://github.com/Thundernerd/Unity3D-SerializableInterface/issues/51)
+* fix version directive in IconUtility ([ffe848c](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/ffe848c940898c22816268d8be2aa3d84721a678)), closes [Thundernerd/Unity3D-SerializableInterface#51](https://github.com/Thundernerd/Unity3D-SerializableInterface/issues/51)
+* make changes requested in code review. Also, fix stop condition in for loop that traverses serialized property's path in SerializedPropertyUtilities.GetValue() function ([191d442](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/191d442026fbc37fb86cc980bce68bfb5e8fb874))
+
 ## [1.12.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.11.1...v1.12.0) (2022-09-09)
 
 
