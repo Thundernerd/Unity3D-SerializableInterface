@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TNRD
 {
@@ -41,5 +42,22 @@ namespace TNRD
         {
             return IsDefined(serializableInterface, out value);
         }
+
+        /// <summary>
+        /// Convert a IEnumerable of Interfaces to a List of SerializableInterfaces
+        /// </summary>
+        public static List<SerializableInterface<T>> ToSerializableInterfaceList<T>(this IEnumerable<T> list) where T : class
+        {
+            return list.Select(e => new SerializableInterface<T>(e) ).ToList();
+        }
+
+         /// <summary>
+        /// Convert a IEnumerable of Interfaces to an Array of SerializableInterfaces
+        /// </summary>
+        public static SerializableInterface<T>[] ToSerializableInterfaceArray<T>(this IEnumerable<T> list) where T : class
+        {
+            return list.Select(e => new SerializableInterface<T>(e)).ToArray();
+        }
+
     }
 }
