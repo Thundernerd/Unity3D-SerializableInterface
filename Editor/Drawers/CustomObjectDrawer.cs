@@ -89,7 +89,10 @@ namespace TNRD.Drawers
             {
                 isSelected = positionWithoutThumb.Contains(Event.mousePosition);
                 ForceRepaintEditors();
-                Clicked?.Invoke(property);
+                if (isSelected)
+                {
+                    Clicked?.Invoke(property);
+                }
             }
             else if (Event.button == 1 && positionWithoutThumb.Contains(Event.mousePosition))
             {
