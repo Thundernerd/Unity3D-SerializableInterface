@@ -17,14 +17,12 @@ namespace TNRD
 
         public SerializableInterface()
         {
-
         }
+
         public SerializableInterface(TInterface value)
         {
             Value = value;
         }
-
-
         public TInterface Value
         {
             get

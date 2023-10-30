@@ -48,7 +48,7 @@ namespace TNRD
         /// </summary>
         public static List<SerializableInterface<T>> ToSerializableInterfaceList<T>(this IEnumerable<T> list) where T : class
         {
-            return list.Select(e => new SerializableInterface<T>(e) ).ToList();
+            return list.Select(e => new SerializableInterface<T>(e)).ToList();
         }
 
          /// <summary>
