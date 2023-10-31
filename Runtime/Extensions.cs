@@ -58,6 +58,5 @@ namespace TNRD
         {
             return list.Select(e => new SerializableInterface<T>(e)).ToArray();
         }
-
     }
 }

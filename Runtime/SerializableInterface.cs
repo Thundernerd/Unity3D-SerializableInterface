@@ -23,6 +23,7 @@ namespace TNRD
         {
             Value = value;
         }
+
         public TInterface Value
         {
             get
