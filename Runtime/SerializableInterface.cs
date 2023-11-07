@@ -15,6 +15,15 @@ namespace TNRD
         [HideInInspector, SerializeField] private UnityEngine.Object unityReference;
         [SerializeReference, UsedImplicitly] private object rawReference;
 
+        public SerializableInterface()
+        {
+        }
+
+        public SerializableInterface(TInterface value)
+        {
+            Value = value;
+        }
+
         public TInterface Value
         {
             get
