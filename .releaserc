@@ -1,0 +1,112 @@
+﻿{
+    "branches":
+    [
+        "main"
+    ],
+    "plugins":
+    [
+        [
+            "@semantic-release/commit-analyzer",
+            {
+                "preset": "conventionalcommits",
+                "releaseRules":
+                [
+                    {
+                        "breaking": true,
+                        "release": "major"
+                    },
+                    {
+                        "type": "docs",
+                        "scope": "README",
+                        "release": "patch"
+                    },
+                    {
+                        "type": "refactor",
+                        "release": "patch"
+                    },
+                    {
+                        "scope": "no-release",
+                        "release": false
+                    }
+                ],
+                "parserOpts":
+                {
+                    "noteKeywords":
+                    [
+                        "BREAKING CHANGE",
+                        "BREAKING CHANGES"
+                    ]
+                }
+            }
+        ],
+        [
+            "@semantic-release/npm",
+            {
+                "npmPublish": true
+            }
+        ],
+        "@semantic-release/github",
+        [
+            "@semantic-release/release-notes-generator",
+            {
+                "preset": "conventionalcommits",
+                "presetConfig":
+                {
+                    "types":
+                    [
+                        {
+                            "type": "feat",
+                            "section": "Features"
+                        },
+                        {
+                            "type": "fix",
+                            "section": "Bug Fixes"
+                        },
+                        {
+                            "type": "chore",
+                            "hidden": true
+                        },
+                        {
+                            "type": "docs",
+                            "section": "Documentation"
+                        },
+                        {
+                            "type": "style",
+                            "hidden": true
+                        },
+                        {
+                            "type": "refactor",
+                            "section": "Refactors"
+                        },
+                        {
+                            "type": "perf",
+                            "section": "Performance Improvements"
+                        },
+                        {
+                            "type": "test",
+                            "section": "Tests"
+                        }
+                    ]
+                }
+            }
+        ],
+        [
+            "@semantic-release/changelog",
+            {
+                "changelogFile": "CHANGELOG.md"
+            }
+        ],
+        [
+            "@semantic-release/git",
+            {
+                "assets":
+                [
+                    "package.json",
+                    "!package-lock.json.meta",
+                    "CHANGELOG.md"
+                ],
+                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+            }
+        ]
+    ]
+}
