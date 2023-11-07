@@ -2,7 +2,7 @@
   "name": "net.tnrd.serializableinterface",
   "version": "1.12.1",
   "displayName": "Serializable Interface",
-  "unity": "2020.1",
+  "unity": "2021.1",
   "description": "A wrapper that allows serialization of interfaces that supports both UnityEngine.Object and regular object types",
   "keywords": [
     "serialize",
@@ -134,4 +134,11 @@
       ]
     ]
   }
+  "samples": [
+    {
+      "displayName": "Source Generation",
+      "description": "Contains a dll that will allow you to use source generation",
+      "path": "Samples~/SourceGeneration"
+    }
+  ]
 }
