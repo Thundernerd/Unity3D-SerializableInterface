@@ -1,3 +1,14 @@
+## [2.0.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.12.1...v2.0.0) (2023-11-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* add source generation sample
+
+### Features
+
+* add source generation sample ([d5a6da3](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/d5a6da3b59b02e507ee796782765a07ef7d9c004))
+
 ### [1.12.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.12.0...v1.12.1) (2022-09-10)
 
 
