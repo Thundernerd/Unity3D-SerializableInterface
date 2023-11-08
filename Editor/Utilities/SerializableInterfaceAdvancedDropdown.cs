@@ -16,6 +16,7 @@ namespace TNRD.Utilities
         private readonly Type interfaceType;
         private readonly MethodInfo sortChildrenMethod;
         private readonly bool canSort;
+        private readonly bool rawReferencesOnly;
         private readonly Scene? relevantScene;
         private readonly SerializedProperty property;
 
@@ -28,7 +29,8 @@ namespace TNRD.Utilities
             AdvancedDropdownState state,
             Type interfaceType,
             Scene? relevantScene,
-            SerializedProperty property
+            SerializedProperty property,
+            bool classesOnly
         )
             : base(state)
         {
@@ -42,15 +44,21 @@ namespace TNRD.Utilities
             this.interfaceType = interfaceType;
             this.relevantScene = relevantScene;
             this.property = property;
+            this.rawReferencesOnly = classesOnly;
         }
 
         /// <inheritdoc />
         protected override AdvancedDropdownItem BuildRoot()
         {
-            AdvancedDropdownItemWrapper item = new AdvancedDropdownItemWrapper(interfaceType.Name)
-                .AddChild(new AssetsItemBuilder(interfaceType).Build())
-                .AddChild(new ClassesItemBuilder(interfaceType).Build())
-                .AddChild(new SceneItemBuilder(interfaceType, relevantScene).Build());
+            AdvancedDropdownItemWrapper item = new AdvancedDropdownItemWrapper(interfaceType.Name);
+
+            item.AddChild(new ClassesItemBuilder(interfaceType).Build());
+
+            if (!rawReferencesOnly)
+            {
+                item.AddChild(new AssetsItemBuilder(interfaceType).Build());
+                item.AddChild(new SceneItemBuilder(interfaceType, relevantScene).Build());
+            }
 
             foreach (AdvancedDropdownItem dropdownItem in item.children)
             {

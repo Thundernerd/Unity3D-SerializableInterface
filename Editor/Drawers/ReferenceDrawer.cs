@@ -71,7 +71,7 @@ namespace TNRD.Drawers
         {
             AdvancedDropdownState state = new AdvancedDropdownState();
             SerializableInterfaceAdvancedDropdown dropdown =
-                new SerializableInterfaceAdvancedDropdown(state, GenericType, GetRelevantScene(property), property);
+                new SerializableInterfaceAdvancedDropdown(state, GenericType, GetRelevantScene(property), property, FieldInfo.GetCustomAttribute<ClassesOnlyAttribute>() != null);
             dropdown.ItemSelectedEvent += OnItemSelected;
             dropdown.Show(position);
         }
