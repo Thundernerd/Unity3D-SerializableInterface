@@ -16,7 +16,7 @@ namespace TNRD.Utilities
         private readonly Type interfaceType;
         private readonly MethodInfo sortChildrenMethod;
         private readonly bool canSort;
-        private readonly bool rawReferencesOnly;
+        private readonly bool classesOnly;
         private readonly Scene? relevantScene;
         private readonly SerializedProperty property;
 
@@ -44,7 +44,7 @@ namespace TNRD.Utilities
             this.interfaceType = interfaceType;
             this.relevantScene = relevantScene;
             this.property = property;
-            this.rawReferencesOnly = classesOnly;
+            this.classesOnly = classesOnly;
         }
 
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace TNRD.Utilities
 
             item.AddChild(new ClassesItemBuilder(interfaceType).Build());
 
-            if (!rawReferencesOnly)
+            if (!classesOnly)
             {
                 item.AddChild(new AssetsItemBuilder(interfaceType).Build());
                 item.AddChild(new SceneItemBuilder(interfaceType, relevantScene).Build());
