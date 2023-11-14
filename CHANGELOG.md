@@ -1,3 +1,10 @@
+## [2.1.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.12.1...v2.0.0) (2023-11-14)
+
+
+### Features
+
+* add classes only attribute ([#57](https://github.com/Thundernerd/Unity3D-SerializableInterface/pull/57))
+
 ## [2.0.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.12.1...v2.0.0) (2023-11-07)
 
 
