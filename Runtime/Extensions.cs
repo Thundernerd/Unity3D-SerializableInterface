@@ -68,16 +68,8 @@ namespace TNRD
             }
 
             Object instantiatedObject = Object.Instantiate(unityObject);
-            
-            if(instantiatedObject is GameObject)
-            {
-                GameObject go = (GameObject)instantiatedObject;
-                return go.GetComponent<TInterface>();
-            }
-            else
-            {
-                return instantiatedObject as TInterface;
-            }
+
+            return GetInterfaceReference<TInterface>(instantiatedObject);
         }
 
         public static TInterface Instantiate<TInterface>(this SerializableInterface<TInterface> serializableInterface, Transform parent) where TInterface : class
