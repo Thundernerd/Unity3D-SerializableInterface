@@ -1,3 +1,10 @@
+## [2.2.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v2.1.0...v2.2.0) (2024-02-09)
+
+
+### Features
+
+* instantiation support ([#62](https://github.com/Thundernerd/Unity3D-SerializableInterface/issues/62)) ([de0b647](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/de0b647e2be5cf8809e91e4fc59e81a9ea0c670b))
+
 ## [2.1.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v1.12.1...v2.0.0) (2023-11-14)
 
 
