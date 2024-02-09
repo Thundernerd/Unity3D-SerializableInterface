@@ -110,17 +110,10 @@ namespace TNRD
 
         private static TInterface GetInterfaceReference<TInterface>(Object instantiatedObject) where TInterface : class
         {
-            if (instantiatedObject is GameObject)
-            {
-                GameObject go = (GameObject)instantiatedObject;
-                if (!go.TryGetComponent(out TInterface tInterface)) return null;
-                return tInterface;
-            }
-            else
-            {
-                if (instantiatedObject is TInterface is false) return null;
-                return instantiatedObject as TInterface;
-            }
+            if (instantiatedObject is GameObject gameObject)
+                return gameObject.TryGetComponent(out TInterface component) ? component : null;
+
+            return instantiatedObject as TInterface;
         }
     }
 }
