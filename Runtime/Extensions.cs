@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace TNRD
 {
@@ -57,6 +58,62 @@ namespace TNRD
         public static SerializableInterface<T>[] ToSerializableInterfaceArray<T>(this IEnumerable<T> list) where T : class
         {
             return list.Select(e => new SerializableInterface<T>(e)).ToArray();
+        }
+
+        public static TInterface Instantiate<TInterface>(this SerializableInterface<TInterface> serializableInterface) where TInterface : class
+        {
+            if (!serializableInterface.TryGetObject(out Object unityObject)) 
+            {
+                throw new System.Exception($"Cannot instantiate {serializableInterface} because it's has no reference of type UnityEngine.Object");
+            }
+
+            Object instantiatedObject = Object.Instantiate(unityObject);
+
+            return GetInterfaceReference<TInterface>(instantiatedObject);
+        }
+
+        public static TInterface Instantiate<TInterface>(this SerializableInterface<TInterface> serializableInterface, Transform parent) where TInterface : class
+        {
+            if (!serializableInterface.TryGetObject(out Object unityObject))
+            {
+                throw new System.Exception($"Cannot instantiate {serializableInterface} because it's has no reference of type UnityEngine.Object");
+            }
+
+            Object instantiatedObject = Object.Instantiate(unityObject, parent);
+
+            return GetInterfaceReference<TInterface>(instantiatedObject);
+        }        
+
+        public static TInterface Instantiate<TInterface>(this SerializableInterface<TInterface> serializableInterface, Vector3 position, Quaternion rotation) where TInterface : class
+        {
+            if (!serializableInterface.TryGetObject(out Object unityObject))
+            {
+                throw new System.Exception($"Cannot instantiate {serializableInterface} because it's has no reference of type UnityEngine.Object");
+            }
+
+            Object instantiatedObject = Object.Instantiate(unityObject, position, rotation);
+
+            return GetInterfaceReference<TInterface>(instantiatedObject);
+        }
+
+        public static TInterface Instantiate<TInterface>(this SerializableInterface<TInterface> serializableInterface, Vector3 position, Quaternion rotation, Transform parent) where TInterface : class
+        {
+            if (!serializableInterface.TryGetObject(out Object unityObject))
+            {
+                throw new System.Exception($"Cannot instantiate {serializableInterface} because it's has no reference of type UnityEngine.Object");
+            }
+
+            Object instantiatedObject = Object.Instantiate(unityObject, position, rotation, parent);
+
+            return GetInterfaceReference<TInterface>(instantiatedObject);
+        }
+
+        private static TInterface GetInterfaceReference<TInterface>(Object instantiatedObject) where TInterface : class
+        {
+            if (instantiatedObject is GameObject gameObject)
+                return gameObject.TryGetComponent(out TInterface component) ? component : null;
+
+            return instantiatedObject as TInterface;
         }
     }
 }

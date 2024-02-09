@@ -57,5 +57,14 @@ namespace TNRD
         {
             return rawReference;
         }
+
+        public bool TryGetObject(out UnityEngine.Object unityObject)
+        {
+            unityObject = null;
+            if (mode != ReferenceMode.Unity) return false;
+
+            unityObject = unityReference;
+            return true;
+        }
     }
 }
