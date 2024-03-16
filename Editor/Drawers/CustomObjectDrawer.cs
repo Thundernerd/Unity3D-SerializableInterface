@@ -1,4 +1,8 @@
-﻿using TNRD.Utilities;
+﻿#if UNITY_2022_3_20 || UNITY_2022_3_21
+#define UNITY_2022_3_20_OR_NEWER
+using TNRD.Utilities;
+#endif
+using TNRD.Utilities;
 using UnityEditor;
 using UnityEngine;
 
@@ -38,7 +42,7 @@ namespace TNRD.Drawers
 
         private Rect DrawPrefixLabel(Rect position, GUIContent label, bool hasChildren)
         {
-#if UNITY_2022_1_OR_NEWER
+#if UNITY_2022_3_20_OR_NEWER
             GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
             
             if (hasChildren || EditorGUI.indentLevel >= 1)
@@ -56,6 +60,17 @@ namespace TNRD.Drawers
                 result.xMin -= ReflectedEditorGUI.indentWidth;
             }
 
+            return result;
+#elif UNITY_2022_2_OR_NEWER
+            if (hasChildren || EditorGUI.indentLevel >= 1)
+            {
+                position.xMin += ReflectedEditorGUI.indentWidth;
+            }
+
+            GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
+            Rect result = EditorGUI.PrefixLabel(position, label, labelStyle);
+            if (hasChildren || EditorGUI.indentLevel>=1)
+                result.xMin -= ReflectedEditorGUI.indentWidth;
             return result;
 #else
             GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;

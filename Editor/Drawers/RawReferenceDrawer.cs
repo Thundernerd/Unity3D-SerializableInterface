@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if UNITY_2022_3_20 || UNITY_2022_3_21
+#define UNITY_2022_3_20_OR_NEWER
+#endif
+
+using System;
 using System.Reflection;
 using TNRD.Utilities;
 using UnityEditor;
@@ -58,7 +62,7 @@ namespace TNRD.Drawers
 
         private void DrawProperty(Rect position)
         {
-#if UNITY_2022_1_OR_NEWER
+#if UNITY_2022_3_20_OR_NEWER
             position.xMin -= ReflectedEditorGUI.indent;
 #endif
             EditorGUI.PropertyField(position,
