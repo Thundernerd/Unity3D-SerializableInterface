@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v2.2.0...v2.2.1) (2024-03-16)
+
+
+### Bug Fixes
+
+* indentation issues in Unity 2022 ([#63](https://github.com/Thundernerd/Unity3D-SerializableInterface/issues/63)) ([c1648be](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/c1648be54b74dd08ae6076c041e127e897d0b447))
+
 ## [2.2.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v2.1.0...v2.2.0) (2024-02-09)
 
 
