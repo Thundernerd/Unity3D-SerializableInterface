@@ -27,7 +27,7 @@ namespace TNRD.Drawers
             Object unityReference = UnityReferenceProperty.objectReferenceValue;
             Type referenceType = unityReference == null ? typeof(Object) : unityReference.GetType();
             GUIContent objectContent = EditorGUIUtility.ObjectContent(unityReference, referenceType);
-            CustomObjectDrawer.OnGUI(position, label, objectContent, Property);
+            CustomObjectDrawer.OnGUI(position, label, objectContent, Property, false);
             HandleDragAndDrop(position);
         }
 

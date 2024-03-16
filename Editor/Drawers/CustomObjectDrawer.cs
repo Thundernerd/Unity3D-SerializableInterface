@@ -23,12 +23,12 @@ namespace TNRD.Drawers
         public event DeletePressedDelegate DeletePressed;
         public event PropertiesClickedDelegate PropertiesClicked;
 
-        public void OnGUI(Rect position, GUIContent label, GUIContent content, SerializedProperty property)
+        public void OnGUI(Rect position, GUIContent label, GUIContent content, SerializedProperty property, bool hasChildren)
         {
             Rect positionWithoutThumb = new Rect(position);
             positionWithoutThumb.xMax -= 20;
 
-            position = DrawPrefixLabel(position, label);
+            position = DrawPrefixLabel(position, label, hasChildren);
             DrawObjectField(position, content);
             DrawButton(position, property);
 
@@ -36,17 +36,26 @@ namespace TNRD.Drawers
             HandleKeyDown(property);
         }
 
-        private Rect DrawPrefixLabel(Rect position, GUIContent label)
+        private Rect DrawPrefixLabel(Rect position, GUIContent label, bool hasChildren)
         {
 #if UNITY_2022_1_OR_NEWER
             GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
-            using (new EditorGUI.IndentLevelScope(-1))
+            
+            if (hasChildren || EditorGUI.indentLevel >= 1)
             {
-                position.xMin -= ReflectedEditorGUI.indent;
+                using (new EditorGUI.IndentLevelScope(-1))
+                {
+                    position.xMin -= ReflectedEditorGUI.indent;
+                }    
             }
 
             Rect result = EditorGUI.PrefixLabel(position, label, labelStyle);
-            result.xMin -= ReflectedEditorGUI.indentWidth;
+            
+            if (hasChildren || EditorGUI.indentLevel >= 1)
+            {
+                result.xMin -= ReflectedEditorGUI.indentWidth;
+            }
+
             return result;
 #else
             GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;

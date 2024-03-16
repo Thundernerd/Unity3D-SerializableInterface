@@ -45,7 +45,7 @@ namespace TNRD.Drawers
                 ? EditorGUIUtility.ObjectContent((MonoScript)null, typeof(MonoScript))
                 : new GUIContent(rawReferenceValue.GetType().Name, IconUtility.ScriptIcon);
 
-            CustomObjectDrawer.OnGUI(objectFieldRect, label, content, Property);
+            CustomObjectDrawer.OnGUI(objectFieldRect, label, content, Property, rawReferenceValue != null);
 
             HandleDragAndDrop(objectFieldRect);
 
