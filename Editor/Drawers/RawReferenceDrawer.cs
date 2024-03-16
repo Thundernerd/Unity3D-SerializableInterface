@@ -58,6 +58,9 @@ namespace TNRD.Drawers
 
         private void DrawProperty(Rect position)
         {
+#if UNITY_2022_1_OR_NEWER
+            position.xMin -= ReflectedEditorGUI.indent;
+#endif
             EditorGUI.PropertyField(position,
                 RawReferenceProperty,
                 GUIContent.none,

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using TNRD.Utilities;
+using UnityEditor;
 using UnityEngine;
 
 namespace TNRD.Drawers
@@ -37,9 +38,21 @@ namespace TNRD.Drawers
 
         private Rect DrawPrefixLabel(Rect position, GUIContent label)
         {
+#if UNITY_2022_1_OR_NEWER
+            GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
+            using (new EditorGUI.IndentLevelScope(-1))
+            {
+                position.xMin -= ReflectedEditorGUI.indent;
+            }
+
+            Rect result = EditorGUI.PrefixLabel(position, label, labelStyle);
+            result.xMin -= ReflectedEditorGUI.indentWidth;
+            return result;
+#else
             GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
             Rect result = EditorGUI.PrefixLabel(position, label, labelStyle);
             return result;
+#endif
         }
 
         private void DrawObjectField(Rect position, GUIContent objectFieldContent)
