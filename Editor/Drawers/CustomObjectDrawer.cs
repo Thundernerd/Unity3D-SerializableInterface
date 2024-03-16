@@ -1,4 +1,9 @@
-﻿using UnityEditor;
+﻿#if UNITY_2022_3_20 || UNITY_2022_3_21
+#define UNITY_2022_3_20_OR_NEWER
+using TNRD.Utilities;
+#endif
+using TNRD.Utilities;
+using UnityEditor;
 using UnityEngine;
 
 namespace TNRD.Drawers
@@ -22,12 +27,12 @@ namespace TNRD.Drawers
         public event DeletePressedDelegate DeletePressed;
         public event PropertiesClickedDelegate PropertiesClicked;
 
-        public void OnGUI(Rect position, GUIContent label, GUIContent content, SerializedProperty property)
+        public void OnGUI(Rect position, GUIContent label, GUIContent content, SerializedProperty property, bool hasChildren)
         {
             Rect positionWithoutThumb = new Rect(position);
             positionWithoutThumb.xMax -= 20;
 
-            position = DrawPrefixLabel(position, label);
+            position = DrawPrefixLabel(position, label, hasChildren);
             DrawObjectField(position, content);
             DrawButton(position, property);
 
@@ -35,11 +40,43 @@ namespace TNRD.Drawers
             HandleKeyDown(property);
         }
 
-        private Rect DrawPrefixLabel(Rect position, GUIContent label)
+        private Rect DrawPrefixLabel(Rect position, GUIContent label, bool hasChildren)
         {
+#if UNITY_2022_3_20_OR_NEWER
+            GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
+            
+            if (hasChildren || EditorGUI.indentLevel >= 1)
+            {
+                using (new EditorGUI.IndentLevelScope(-1))
+                {
+                    position.xMin -= ReflectedEditorGUI.indent;
+                }    
+            }
+
+            Rect result = EditorGUI.PrefixLabel(position, label, labelStyle);
+            
+            if (hasChildren || EditorGUI.indentLevel >= 1)
+            {
+                result.xMin -= ReflectedEditorGUI.indentWidth;
+            }
+
+            return result;
+#elif UNITY_2022_2_OR_NEWER
+            if (hasChildren || EditorGUI.indentLevel >= 1)
+            {
+                position.xMin += ReflectedEditorGUI.indentWidth;
+            }
+
+            GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
+            Rect result = EditorGUI.PrefixLabel(position, label, labelStyle);
+            if (hasChildren || EditorGUI.indentLevel>=1)
+                result.xMin -= ReflectedEditorGUI.indentWidth;
+            return result;
+#else
             GUIStyle labelStyle = isSelected ? Styles.SelectedLabelStyle : Styles.RegularLabelStyle;
             Rect result = EditorGUI.PrefixLabel(position, label, labelStyle);
             return result;
+#endif
         }
 
         private void DrawObjectField(Rect position, GUIContent objectFieldContent)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using TNRD.Drawers;
+using TNRD.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -81,7 +82,7 @@ namespace TNRD
 
         private IReferenceDrawer GetReferenceDrawer(SerializedProperty property, GUIContent label)
         {
-            SerializedProperty modeProperty = serializedProperty.FindPropertyRelative("mode");
+            SerializedProperty modeProperty = serializedProperty.ReferenceModeProperty();
             ReferenceMode referenceMode = (ReferenceMode)modeProperty.enumValueIndex;
 
             switch (referenceMode)
