@@ -4,6 +4,12 @@
 
 * ClassesOnlyAttribute is Runtime Attribute ([#65](https://github.com/Thundernerd/Unity3D-SerializableInterface/issues/65)) ([8c43f44](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/8c43f44954d1bf34a1649eea734b2fcb59528803))
 
+## [2.2.2](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v2.2.1...v2.2.2) (2026-06-02)
+
+### Bug Fixes
+
+* ClassesOnlyAttribute is Runtime Attribute ([#65](https://github.com/Thundernerd/Unity3D-SerializableInterface/issues/65)) ([8c43f44](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/8c43f44954d1bf34a1649eea734b2fcb59528803))
+
 ## [2.2.1](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v2.2.0...v2.2.1) (2024-03-16)
 
 
