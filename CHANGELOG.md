@@ -1,3 +1,9 @@
+## [2.3.0](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v2.2.2...v2.3.0) (2026-06-02)
+
+### Features
+
+* Hide empty dropdown items and collapse items with single child ([#64](https://github.com/Thundernerd/Unity3D-SerializableInterface/issues/64)) ([d2d3e3e](https://github.com/Thundernerd/Unity3D-SerializableInterface/commit/d2d3e3e77dcb46bcaae07fd8f44978256bd40e59))
+
 ## [2.2.2](https://github.com/Thundernerd/Unity3D-SerializableInterface/compare/v2.2.1...v2.2.2) (2026-06-02)
 
 ### Bug Fixes
