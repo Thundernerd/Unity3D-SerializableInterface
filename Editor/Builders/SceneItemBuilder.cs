@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using TNRD.Items;
 using TNRD.Utilities;
@@ -26,10 +26,7 @@ namespace TNRD.Builders
         {
             if (scene == null || !scene.Value.IsValid())
             {
-                return new AdvancedDropdownItem("Scene")
-                {
-                    enabled = false
-                };
+                return null;
             }
 
             AdvancedDropdownItem root = new AdvancedDropdownItemWrapper("Scene");
@@ -39,6 +36,10 @@ namespace TNRD.Builders
             foreach (GameObject rootGameObject in rootGameObjects)
             {
                 CreateItemsRecursive(rootGameObject.transform, root);
+            }
+            if (!root.children.Any())
+            {
+                return null;
             }
 
             return root;

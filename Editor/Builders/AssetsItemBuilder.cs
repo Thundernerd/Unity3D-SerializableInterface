@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TNRD.Items;
 using TNRD.Utilities;
 using UnityEditor;
@@ -46,7 +47,60 @@ namespace TNRD.Builders
                 }
             }
 
-            return root;
+            return Collapse(root);
+        }
+
+        private AdvancedDropdownItem Collapse(AdvancedDropdownItem root)
+        {
+            AdvancedDropdownItem[] rootChildren = root.children.ToArray();
+
+            if (root is IDropdownItem)
+            {
+                return root;
+            }
+
+            if (rootChildren.Length == 0)
+            {
+                return null;
+            }
+            AdvancedDropdownItem newRoot = new(root.name)
+            {
+                icon = root.icon,
+                enabled = root.enabled,
+                id = root.id,
+            };
+
+            while (rootChildren.Length == 1 && rootChildren[0] is {} singleChild and not IDropdownItem)
+            {
+                newRoot = new AdvancedDropdownItem(CollapseName($"{newRoot.name}/{singleChild.name}"))
+                {
+                    icon = singleChild.icon,
+                    id = singleChild.id,
+                };
+                rootChildren = singleChild.children.ToArray();
+            }
+            bool addedChildren = false;
+            foreach (var child in rootChildren)
+            {
+                AdvancedDropdownItem newChild = Collapse(child);
+                if (newChild != null)
+                {
+                    newRoot.AddChild(newChild);
+                    addedChildren = true;
+                }
+            }
+            return addedChildren ? newRoot : null;
+        }
+
+        private const int MAX_NAME_LENGTH = 90;
+        private const int HALF_LENGTH = (MAX_NAME_LENGTH - 4) / 2;
+        private string CollapseName(string name)
+        {
+            if (name.Length > MAX_NAME_LENGTH)
+            {
+                return $"{name[..HALF_LENGTH]}...{name[^HALF_LENGTH..]}";
+            }
+            return name;
         }
 
         private void CreateItemForPath(AdvancedDropdownItem root, string path)

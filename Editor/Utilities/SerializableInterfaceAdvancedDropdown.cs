@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using TNRD.Builders;
@@ -60,10 +60,7 @@ namespace TNRD.Utilities
                 item.AddChild(new SceneItemBuilder(interfaceType, relevantScene).Build());
             }
 
-            foreach (AdvancedDropdownItem dropdownItem in item.children)
-            {
-                dropdownItem.AddChild(new NoneDropdownItem());
-            }
+            item.AddChild(new NoneDropdownItem());
 
             if (canSort)
             {

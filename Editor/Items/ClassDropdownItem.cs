@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using TNRD.Utilities;
 using UnityEditor.IMGUI.Controls;
@@ -14,7 +14,9 @@ namespace TNRD.Items
             : base(type.Name)
         {
             this.type = type;
-            enabled = type.GetConstructors().Any(x => x.GetParameters().Length == 0);
+            // Needs a parameterless constructor or be a value type
+            enabled = type.GetConstructors().Any(x => x.GetParameters().Length == 0)
+                || type.IsValueType;
             icon = IconUtility.ScriptIcon;
         }
 

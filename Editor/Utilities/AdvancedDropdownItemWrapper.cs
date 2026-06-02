@@ -1,4 +1,4 @@
-﻿using UnityEditor.IMGUI.Controls;
+using UnityEditor.IMGUI.Controls;
 
 namespace TNRD.Utilities
 {
@@ -12,7 +12,10 @@ namespace TNRD.Utilities
 
         public new AdvancedDropdownItemWrapper AddChild(AdvancedDropdownItem child)
         {
-            base.AddChild(child);
+            if (child != null)
+            {
+                base.AddChild(child);
+            }
             return this;
         }
 

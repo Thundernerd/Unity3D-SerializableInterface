@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TNRD.Items;
 using TNRD.Utilities;
 using UnityEditor;
@@ -34,6 +35,10 @@ namespace TNRD.Builders
 
                 AdvancedDropdownItem parent = GetOrCreateParentItem(type, root);
                 parent.AddChild(new ClassDropdownItem(type));
+            }
+            if (!root.children.Any())
+            {
+                return null;
             }
 
             return root;
